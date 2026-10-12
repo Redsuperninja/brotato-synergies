@@ -3,9 +3,13 @@ dist/
 
 # Third-party asset pack — NOT redistributed here (see README "Third-party assets").
 # Drop the purchased pack in this folder to build the sprite-sheet VFX locally.
-mods-unpacked/tato-Synergies/assets/vfx/
+mods-unpacked/Redsuperninja-Synergies/assets/vfx/
 
 # Scratch
 *.bak
 .DS_Store
 node_modules/
+
+# Game scripts read back by tools/game_source.py. Brotato is (c) Blobfish: never commit these.
+.game-src/
+.venv-tools/

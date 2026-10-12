@@ -1,9 +1,11 @@
 # Contributing
 
-Thanks for looking. This is a Godot 3.x GDScript mod for Brotato, loaded by Godot Mod Loader 6.x.
-There is no build system beyond a shell script and no test suite — everything is verified by
-launching the game and reading the log, so a good bug report and a small, focused PR are worth a lot
-here.
+Thanks for looking. This is a Godot 3.x GDScript mod for Brotato, loaded by Godot Mod Loader 6.x, and
+a fork of hhoangg's Co-op Synergies. There is no game test runner: static checks catch content and
+syntax mistakes, and the rest is verified by launching the game and reading the log (see
+[docs/dev/testing.md](docs/dev/testing.md)). How work is planned, built and reviewed is in
+[docs/dev/workflow.md](docs/dev/workflow.md); turn on the pre-push hook once per clone with
+`git config core.hooksPath .githooks`.
 
 ## Reporting a bug
 
@@ -34,7 +36,7 @@ the Brotato version, the ModLoader version, and any other mods you have enabled.
    touch the scripts in `tools/`.
 2. **Get the third-party VFX pack.** *Vivid Motion 23 — Universal Status Effects* is not in this
    repository and cannot be redistributed here. Obtain it yourself and place it at
-   `mods-unpacked/tato-Synergies/assets/vfx/Vivid_Motion_23_ Universal_Status_Effects/`, keeping the
+   `mods-unpacked/Redsuperninja-Synergies/assets/vfx/Vivid_Motion_23_ Universal_Status_Effects/`, keeping the
    pack's own folder layout. Without it everything still builds and runs — the spritesheet status
    effects just do not render — so it is optional unless you are working on those.
 3. Brotato's shipped build loads mods **only** from the Steam Workshop content directory. You need
@@ -44,7 +46,7 @@ the Brotato version, the ModLoader version, and any other mods you have enabled.
 ## Build and test loop
 
 ```bash
-./build-zip.sh     # dist/tato-Synergies.zip — TEST build
+./build-zip.sh     # dist/Redsuperninja-Synergies.zip — TEST build
 ./sync-to-mac.sh   # build + copy into the local Steam Workshop item folder
 ```
 
@@ -75,8 +77,13 @@ These are not style preferences — most of them are parse errors or silent brea
 - **Mod PNGs cannot be `load()`ed.** They are never import-cooked, so read the bytes and decode with
   `Image.load_png_from_buffer` (see `skill_hud._icon_for` and `vfx/sprite_vfx._load_sheet`), and
   cache the result.
-- **Invalidate the stat cache after writing a stat.** The game caches computed stats; a buff written
-  into `RunData.get_player_effects()` without invalidating the cache silently does nothing.
+- **Change player stats only through `_apply_stat` / `_grant_buff`** (the game's `TempStats`). Never
+  write `current_stats`, `max_stats` or `RunData.get_player_effects()` directly: dodge there is a 0–1
+  fraction and speed is pixels, and that is how stats used to go negative. Use the game's stat keys
+  (`stat_percent_damage` for Damage, `xp_gain` for XP); `tools/check_config.py` rejects the rest. See
+  [docs/dev/game-internals.md](docs/dev/game-internals.md) and ADR 0001.
+- **Change enemy speed or tint only through `_enemy_mod` / `_enemy_unmod`**, so overlapping effects
+  restore correctly.
 - **Bump the version on every change.** `MOD_VERSION` in `config.gd` and `version_number` in
   `manifest.json` must always match — the version is shown in the HUD watermark, so an in-game glance
   confirms which build is loaded. Semver:
@@ -130,11 +137,13 @@ To add a skill:
    circle.
 
 Changing a character's faction membership means editing `AFFINITIES` in the same file; each faction
-also needs an entry in `AFFINITY_COLORS` and `AFFINITY_ORDER`.
+also needs an entry in `AFFINITY_COLORS` and `AFFINITY_ORDER`. Every character must stay in at least one
+faction, nerfs must be negative and never touch Harvesting; `tools/check_config.py` checks all of this.
 
 ## Verifying your change
 
-There are no automated tests. Verification means: build, sync, launch the game, and read the log.
+First `python tools/check_config.py`, `gdparse` on every `.gd` you changed, and `./build-zip.sh`
+([docs/dev/testing.md](docs/dev/testing.md)). Then build, sync, launch the game, and read the log.
 A useful pass covers at least:
 
 - the mod loads (`[Synergies] loaded v<version>` with no parse errors above it);

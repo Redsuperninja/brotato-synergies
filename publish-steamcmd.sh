@@ -18,7 +18,7 @@ set -euo pipefail
 #   ./publish-steamcmd.sh <steam_account>
 #   (the first login prompts for your Steam Guard code, interactively)
 
-MOD_ID="tato-Synergies"
+MOD_ID="Redsuperninja-Synergies"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DIST="${SCRIPT_DIR}/dist"
 CONTENT="${DIST}/content"                       # the folder Steam uploads: must hold ONLY the zip

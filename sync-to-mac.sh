@@ -4,7 +4,7 @@ set -euo pipefail
 # FAST LOCAL dev loop on THIS Mac for the Co-op Synergies mod. Brotato's shipped build loads
 # mods ONLY from the Steam Workshop content dir (it ignores local mods/ and mods-unpacked/),
 # so this writes the fresh zip DIRECTLY into the downloaded Workshop folder of the
-# tato-Synergies item. Relaunch Brotato to pick it up — no re-upload to the Workshop.
+# Redsuperninja-Synergies item. Relaunch Brotato to pick it up — no re-upload to the Workshop.
 #
 # PREREQS (one time): publish the mod once with
 #     ./publish-steamcmd.sh <steam_account>
@@ -16,9 +16,9 @@ set -euo pipefail
 # files" or when the item is updated server-side. For a real release, upload via
 # publish-steamcmd.sh instead.
 
-MOD_ID="tato-Synergies"
+MOD_ID="Redsuperninja-Synergies"
 APP_ID="1942280"
-WS_ITEM="${WS_ITEM:-3745283747}"   # published Synergies Workshop item id (override via env if needed)
+WS_ITEM="${WS_ITEM:-}"   # this fork's Workshop item id once published (set via env or hardcode here)
 if [ -z "${WS_ITEM}" ]; then
   echo "error: WS_ITEM not set (mod not published yet)." >&2
   echo "  Publish once:  ./publish-steamcmd.sh <steam_account>" >&2

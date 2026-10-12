@@ -1,4 +1,4 @@
-// Composite a clean title onto the real (agy-generated) Steam Workshop art for tato-Synergies.
+// Composite a clean title onto the real (agy-generated) Steam Workshop art for Redsuperninja-Synergies.
 // Reads the untouched art from thumbnail.agy.png, overlays a bottom scrim + "Co-op Synergies"
 // title (crisp vector text, not AI-garbled), and writes thumbnail.png. Idempotent: always builds
 // from the .agy.png source, so re-running never double-stamps the text.
