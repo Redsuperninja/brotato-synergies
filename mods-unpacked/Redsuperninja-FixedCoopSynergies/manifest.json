@@ -1,0 +1,24 @@
+{
+	"name": "FixedCoopSynergies",
+	"namespace": "Redsuperninja",
+	"version_number": "0.40.0",
+	"description": "Fixed Coop Synergies: each character gets an active skill (unlocks at level 6, upgrades every 6 levels) on a free button, plus faction affinities that grant a buff and a nerf when related characters team up. A fork of Co-op Synergies by hhoangg (byptah), with stats that can no longer go negative and a faction for every character.",
+	"website_url": "https://github.com/Redsuperninja/brotato-synergies",
+	"dependencies": [],
+	"extra": {
+		"godot": {
+			"incompatibilities": [
+				"tato-Synergies"
+			],
+			"authors": [
+				"Redsuperninja",
+				"hhoangg (byptah, original author)"
+			],
+			"compatible_mod_loader_version": [
+				"6.0.0"
+			],
+			"compatible_game_version": [],
+			"config_defaults": {}
+		}
+	}
+}

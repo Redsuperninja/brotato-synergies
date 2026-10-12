@@ -6,8 +6,8 @@
 # injects once per open, and re-injects when the codex is reopened (the popup is freed on close).
 extends Node
 
-const Config = preload("res://mods-unpacked/Redsuperninja-Synergies/config.gd")
-const CharselPanel = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/charsel_panel.gd")
+const Config = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/config.gd")
+const CharselPanel = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/charsel_panel.gd")
 
 const TAB_THEME := "res://resources/themes/tab_buttons_physic.tres"
 const F_NAME := "res://resources/fonts/actual/base/font_26.tres"

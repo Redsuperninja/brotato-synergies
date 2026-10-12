@@ -1,8 +1,8 @@
-# Co-op Synergies (Redsuperninja fork): notes for Claude
+# Fixed Coop Synergies: notes for Claude
 
 A Brotato mod (Godot 3.x GDScript, Godot Mod Loader 6.x) that gives all 64 characters an active skill
 and groups them into factions that buff and nerf the team. Forked from hhoangg's `tato-Synergies`;
-the mod lives in `mods-unpacked/Redsuperninja-Synergies/`. Read `README.md` ("How it works"),
+the mod lives in `mods-unpacked/Redsuperninja-FixedCoopSynergies/`. Read `README.md` ("How it works"),
 `docs/dev/game-internals.md`, `docs/ROADMAP.md` and `docs/adr/` first (map: `docs/README.md`).
 
 ## How work is done
@@ -35,5 +35,5 @@ the mod lives in `mods-unpacked/Redsuperninja-Synergies/`. Read `README.md` ("Ho
 ## Commands
 - Config checks: `python tools/check_config.py`
 - GDScript parse check: `gdparse <file.gd>` (setup in `docs/dev/testing.md`)
-- Build: `./build-zip.sh` (test build) or `BUILD_RELEASE=1 ./build-zip.sh` → `dist/Redsuperninja-Synergies.zip`
+- Build: `./build-zip.sh` (test build) or `BUILD_RELEASE=1 ./build-zip.sh` → `dist/Redsuperninja-FixedCoopSynergies.zip`
 - In-game check: `docs/dev/testing.md`

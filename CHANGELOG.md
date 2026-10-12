@@ -3,8 +3,8 @@
 This fork's changes. The original mod's history is in the git log up to commit `8a819ba` and on
 [hhoangg/brotato-synergies](https://github.com/hhoangg/brotato-synergies).
 
-## 0.40.0 — first fork release
-- **Fork:** now its own mod, `Redsuperninja-Synergies`, by Redsuperninja, based on Co-op Synergies by
+## 0.40.0 — first release of Fixed Coop Synergies
+- **Fork:** now its own mod, **Fixed Coop Synergies** (`Redsuperninja-FixedCoopSynergies`), by Redsuperninja, based on Co-op Synergies by
   hhoangg (byptah). Don't enable it together with the original (the mod list marks them incompatible).
   Its settings are saved separately.
 - **Fixed: stats going negative.** Ending a buff could leave Dodge, Speed or Armor below where they
@@ -26,3 +26,4 @@ This fork's changes. The original mod's history is in the git log up to commit `
   **Fixed:** Creature's curse cloud credited its damage to player 1.
 - For developers: `./build-zip.sh` works on Windows, `tools/check_config.py` checks the content, and
   `tools/game_source.py` reads the game's own scripts for reference.
+- New Workshop page and thumbnail; the first upload is private for playtesting. `publish-steamcmd.sh` and `sync-to-workshop.sh` (was `sync-to-mac.sh`) work on Windows, and publishing runs `tools/check_config.py` first.

@@ -3,7 +3,7 @@
 # Font is COPIED from the game's passive labels (size match); text is localized (VI + EN, default EN).
 extends Control
 
-const Config = preload("res://mods-unpacked/Redsuperninja-Synergies/config.gd")
+const Config = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/config.gd")
 
 const NODE_NAME := "SynergiesSkill"
 # All co-op character panels (Panel1 = host/P1 … Panel4). We inject a skill+faction card into EACH

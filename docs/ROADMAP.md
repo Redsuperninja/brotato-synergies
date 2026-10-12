@@ -1,7 +1,7 @@
 # Roadmap
 
 ## Done
-- [x] **#1 Fork identity:** own mod id (`Redsuperninja-Synergies`), credit to hhoangg kept, marked
+- [x] **#1 Fork identity:** own mod id (`Redsuperninja-FixedCoopSynergies`), credit to hhoangg kept, marked
   incompatible with the original, Workshop item reset to create a new one.
 - [x] **#2 Stats can't go negative:** buffs and faction traits through the game's TempStats (ADR 0001),
   real stat keys for Damage and XP, nerfs clamped at 0.
@@ -13,8 +13,11 @@
 
 ## Next
 - [ ] **#6 Playtest v0.40.0** in co-op with the script in `docs/testing/` and fix what it finds.
-- [ ] **#7 Publish the fork** to the Workshop (new item), then set `WS_ITEM` in `sync-to-mac.sh` and the
-  item id in the README.
+- [x] **#7a Workshop-ready:** named Fixed Coop Synergies (mod id `Redsuperninja-FixedCoopSynergies`),
+  new thumbnail, rewritten Workshop page (private first upload), publish and sync scripts work on Windows.
+- [ ] **#7b Publish:** `./publish-steamcmd.sh <account>` creates the private item; paste its id into
+  `workshop_item.vdf`, playtest it via `WS_ITEM=<id> ./sync-to-workshop.sh`, set `"visibility" "0"`, publish
+  again, and put the item link in the README's Install section.
 - [ ] **#8 Balance pass with real play data:** the Damage and XP buffs (and Damage nerfs) work now for
   the first time, so skills like Wounded, Baby and Multitasker hit harder than before.
 - [ ] **#9 Vietnamese text** for the two new factions' descriptions and anything added since.

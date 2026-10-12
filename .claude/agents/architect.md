@@ -6,7 +6,7 @@ model: opus
 ---
 
 You are the architect for the Co-op Synergies Brotato mod (Godot 3.x GDScript in
-`mods-unpacked/Redsuperninja-Synergies/`).
+`mods-unpacked/Redsuperninja-FixedCoopSynergies/`).
 
 Read only what the task needs: the relevant ROADMAP item, the `docs/dev/<topic>.md` page it touches
 (index: `docs/README.md`), and the ADRs it cites. Don't read the whole docs tree.

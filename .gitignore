@@ -3,7 +3,7 @@ dist/
 
 # Third-party asset pack — NOT redistributed here (see README "Third-party assets").
 # Drop the purchased pack in this folder to build the sprite-sheet VFX locally.
-mods-unpacked/Redsuperninja-Synergies/assets/vfx/
+mods-unpacked/Redsuperninja-FixedCoopSynergies/assets/vfx/
 
 # Scratch
 *.bak

@@ -8,7 +8,7 @@
 //   bun run tools/circle-mask-icons.ts <file-or-dir> [--radius N] [--out DIR] [--suffix S]
 //
 //   # in-place overwrite every PNG in the skills folder (256px → keeps centered r=128 circle):
-//   bun run tools/circle-mask-icons.ts mods-unpacked/Redsuperninja-Synergies/assets/skills
+//   bun run tools/circle-mask-icons.ts mods-unpacked/Redsuperninja-FixedCoopSynergies/assets/skills
 //
 //   # shave a thin background ring at the circle edge by cutting a hair tighter:
 //   bun run tools/circle-mask-icons.ts <dir> --radius 122
