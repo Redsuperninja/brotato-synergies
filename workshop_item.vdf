@@ -49,9 +49,6 @@ Press [b]Space[/b] (keyboard) or the [b]bottom face button[/b] (A on Xbox) durin
 
 Requires Godot Mod Loader.
 
-[h1]Tiếng Việt[/h1]
-Biến co-op Brotato thành game đồng đội: cả 64 nhân vật đều có một skill chủ động hợp với chất riêng, mở ở cấp 6 và mạnh thêm mỗi 6 cấp (5 bậc); sát thương tăng theo wave và theo chỉ số Sát Thương. Các nhân vật cùng phe tạo buff kèm nerf cho cả đội khi có 2+ người đi chung, và mỗi nhân vật có một vai trò. Bản này là bản sửa lỗi và cân bằng lại của Co-op Synergies (hhoangg / byptah): chỉ số không còn bị âm, buff Sát Thương và Kinh Nghiệm đã hoạt động, mọi nhân vật đều có phe, và nerf của phe không bao giờ đẩy chỉ số xuống dưới 0. Bấm [b]Space[/b] hoặc nút dưới của tay cầm để dùng skill. Bật/tắt bằng ô [b]Synergies[/b] trong bảng Run Options khi đang Co-op. Không bật cùng lúc với bản gốc.
-
 [h1]Source code and credits[/h1]
 [b]Repository:[/b] [url=https://github.com/Redsuperninja/brotato-synergies]github.com/Redsuperninja/brotato-synergies[/url]. Bug reports and balance feedback are welcome as GitHub issues or as comments here.
 Original mod, skill design and all 64 skill icons by [b]hhoangg (byptah)[/b]: [url=https://github.com/hhoangg/brotato-synergies]github.com/hhoangg/brotato-synergies[/url]. Code MIT, icons and preview art CC BY 4.0 (the preview's title was changed for this fork). If you enjoy it, consider supporting the original author: [url=https://ko-fi.com/hhoangg]ko-fi.com/hhoangg[/url]
