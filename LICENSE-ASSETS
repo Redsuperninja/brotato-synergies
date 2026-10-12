@@ -12,6 +12,12 @@ commercially, as long as you give appropriate credit ("hhoangg / byptah", with a
 link back to this repository), provide a link to the licence, and indicate if
 changes were made.
 
+## Changes in this fork (Fixed Coop Synergies, by Redsuperninja)
+
+- The 64 skill icons are hhoangg's originals, unchanged.
+- `thumbnail.jpeg` is hhoangg's preview art (`thumbnail.original.jpeg`) with its title replaced by
+  "Fixed Coop Synergies" (`tools/make_thumbnail.py`). The art itself is unchanged.
+
 ## Not covered by either licence
 
 - **Brotato** itself, and anything extracted from the game (sprites, sounds, names,

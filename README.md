@@ -1,6 +1,6 @@
-# Co-op Synergies — Redsuperninja Fork
+# Fixed Coop Synergies
 
-> A fork of [**Co-op Synergies**](https://github.com/hhoangg/brotato-synergies) by **hhoangg (byptah)**,
+> A fixed and rebalanced fork of [**Co-op Synergies**](https://github.com/hhoangg/brotato-synergies) by **hhoangg (byptah)**,
 > who designed the mod, its 64 skills and its icons. This fork is maintained by **Redsuperninja**.
 > Changes since the fork are listed in [CHANGELOG.md](CHANGELOG.md). Don't enable this fork and the
 > original at the same time (the manifest marks them incompatible).
@@ -12,7 +12,7 @@ play together, and every character reads as a role (Carry, Caster, Tank, Support
 Flex) so a party becomes a composition instead of four unrelated runs happening in the same arena.
 
 Godot 3.x GDScript mod for [Godot Mod Loader](https://github.com/GodotModding/godot-mod-loader) 6.x.
-Mod id `Redsuperninja-Synergies` (namespace `Redsuperninja`), forked from `tato-Synergies` by hhoangg.
+Mod id `Redsuperninja-FixedCoopSynergies` (namespace `Redsuperninja`), forked from `tato-Synergies` by hhoangg.
 
 The original mod's companion site, **<https://brotato.byptah.com/synergies>**, lists skills and
 factions as they are in the original. This fork's factions and numbers differ; `config.gd` is the
@@ -78,7 +78,7 @@ Vietnamese; the UI picks the language from the game's locale and falls back to E
 
 1. Install [Godot Mod Loader](https://github.com/GodotModding/godot-mod-loader) for Brotato (the
    game must be started with mods enabled).
-2. Subscribe to this fork on the Steam Workshop once it is published (the original lives at
+2. Subscribe to **Fixed Coop Synergies** on the Steam Workshop (the original Co-op Synergies is
    [item 3745283747](https://steamcommunity.com/sharedfiles/filedetails/?id=3745283747); use one or
    the other, not both).
 3. Start Brotato, start a **Co-op** run, and make sure the **Synergies** toggle in the
@@ -99,7 +99,7 @@ Or install manually: build the zip (below) and drop it into your Brotato mods fo
   shop/menu confirm.
 - **Synergies on/off:** a `Synergies` check button is injected into the character-select **Run
   Options** panel, right under Co-op (it is only visible while Co-op is on). Default: on.
-- Settings are stored in the mod's own file, `user://redsuperninja_synergies_settings.cfg` — the game's own
+- Settings are stored in the mod's own file, `user://fixed_coop_synergies_settings.cfg` — the game's own
   save is never touched. There is a second, independent setting (`skills_solo`, default off) that
   enables skills in solo play; it is injected into **Options → Accessibility** and honoured **only in
   test builds** — a published release build never grants solo skills, since skills are a co-op
@@ -113,8 +113,8 @@ Requirements: `bash` and `zip`. The optional icon/thumbnail tools in `tools/` ne
 [Bun](https://bun.sh) and `sharp`.
 
 ```bash
-./build-zip.sh                    # → dist/Redsuperninja-Synergies.zip  (TEST build)
-BUILD_RELEASE=1 ./build-zip.sh    # → dist/Redsuperninja-Synergies.zip  (RELEASE build)
+./build-zip.sh                    # → dist/Redsuperninja-FixedCoopSynergies.zip  (TEST build)
+BUILD_RELEASE=1 ./build-zip.sh    # → dist/Redsuperninja-FixedCoopSynergies.zip  (RELEASE build)
 ```
 
 `build-zip.sh` rewrites two constants in `config.gd` before zipping and restores the file afterwards
@@ -130,17 +130,22 @@ cooldown to ~5% of the wave, lowers the faction activation threshold to 1 member
 durations to 20s so you can read them in the pause screen, prints a once-a-second gating diagnostic,
 and exposes the solo-skills toggle. `ENABLE_IN_SOLO` is currently only declared, not read at runtime.
 
-The zip's internal layout is `mods-unpacked/Redsuperninja-Synergies/…`, which is what the ModLoader expects.
+The zip's internal layout is `mods-unpacked/Redsuperninja-FixedCoopSynergies/…`, which is what the ModLoader expects.
 Only the Vivid spritesheets are bundled — the per-frame PNGs, preview gifs and unused packs are
 excluded so the published zip stays lean.
 
-Publishing to the Steam Workshop (maintainer only):
+Publishing to the Steam Workshop (maintainer only, needs [SteamCMD](https://developer.valvesoftware.com/wiki/SteamCMD)
+on PATH or `STEAMCMD=<path>`):
 
 ```bash
-./publish-steamcmd.sh <steam_account>   # release build + steamcmd upload, needs thumbnail.jpeg
+python tools/check_config.py            # must pass
+./publish-steamcmd.sh <steam_account>   # release build + steamcmd upload of thumbnail.jpeg
 ```
 
-Workshop metadata (title, description, changenote, item id) lives in `workshop_item.vdf`.
+Workshop metadata (title, description, changenote, item id, visibility) lives in `workshop_item.vdf`.
+The first upload creates a **private** item (`"visibility" "2"`): paste the printed PublishedFileID
+into `workshop_item.vdf`, subscribe, playtest, then set `"visibility" "0"` and run it again to go
+public. `python tools/make_thumbnail.py` rebuilds `thumbnail.jpeg` from the original art.
 
 ---
 
@@ -151,15 +156,16 @@ local `mods/` or `mods-unpacked/` folder. So the fast loop overwrites the downlo
 in place:
 
 ```bash
-./sync-to-mac.sh     # build-zip.sh (test build) + copy into the local Workshop item folder
+WS_ITEM=<item id> ./sync-to-workshop.sh   # build-zip.sh (test build) + copy into the Workshop item folder
 ```
 
-Prerequisites: the item must have been published once and **subscribed** to in Steam so its folder
-exists. Override the target with `WS_ITEM=<id>` or `WS_DIR=<path>`. The script is written for macOS
-paths; adapt `WS_DIR` on other platforms.
+Prerequisites: the item must have been published once (privately is fine) and **subscribed** to in
+Steam so its folder exists. The script knows the default Steam folder on macOS, Windows (Git Bash)
+and Linux; override it with `WS_DIR=<path>`.
 
-Then relaunch Brotato and read `~/Library/Application Support/Brotato/logs/godot.log` — the mod
-prints `[Synergies] loaded v<version>` on start, plus per-cast and per-stat lines. The version also
+Then relaunch Brotato and read the log (`%APPDATA%\Brotato\logs\godot.log` on Windows,
+`~/Library/Application Support/Brotato/logs/godot.log` on macOS) — the mod
+prints `[Synergies] loaded Fixed Coop Synergies v<version>` on start, plus per-cast and per-stat lines. The version also
 appears in the HUD watermark, so an in-game glance confirms which build is loaded.
 
 Caveat: this overwrites Steam-managed files. Steam may revert them on "Verify integrity of game
@@ -171,14 +177,18 @@ files" or when the item updates server-side.
 
 ```
 build-zip.sh              build the distributable zip (toggles TEST_MODE / ENABLE_IN_SOLO)
-sync-to-mac.sh            build + drop the zip into the local Steam Workshop folder
+sync-to-workshop.sh       build + drop the zip into the local Steam Workshop folder
 publish-steamcmd.sh       release build + Workshop upload via steamcmd
-workshop_item.vdf         Workshop metadata (title, description, changenote, item id)
+workshop_item.vdf         Workshop metadata (title, description, changenote, item id, visibility)
+thumbnail.jpeg            Workshop preview, built from thumbnail.original.jpeg (hhoangg's art)
 SKILL-ICON-PROMPTS.md     the image prompts used to generate the 64 skill icons
 tools/
   circle-mask-icons.ts    cut generated icons to a transparent circle (Bun + sharp)
-  make-thumbnail.ts       composite the Workshop thumbnail title onto the art
-mods-unpacked/Redsuperninja-Synergies/
+  make_thumbnail.py       put this fork's title on the preview art (Pillow)
+  check_config.py         static checks on content, stat keys, versions and Workshop text
+  game_source.py          read the game's own scripts into the git-ignored .game-src/
+  zip_mod.py              zip fallback for build-zip.sh where `zip` is missing
+mods-unpacked/Redsuperninja-FixedCoopSynergies/
   manifest.json           ModLoader manifest (id, version_number, ML 6.x compatibility)
   mod_main.gd             ModLoader entry point; spawns the persistent controller
   config.gd               ALL tunables + content: framework constants, roles, effect templates,
@@ -265,12 +275,12 @@ synergies were active this run and each player's character/skill — so another 
 
 The sprite-sheet effects use **Vivid Motion 23 — Universal Status Effects**, a third-party art pack.
 **It is not included in this repository** (`.gitignore` excludes
-`mods-unpacked/Redsuperninja-Synergies/assets/vfx/`) because this project has no right to redistribute it.
+`mods-unpacked/Redsuperninja-FixedCoopSynergies/assets/vfx/`) because this project has no right to redistribute it.
 
 To build with those effects, obtain the pack yourself and place it at:
 
 ```
-mods-unpacked/Redsuperninja-Synergies/assets/vfx/Vivid_Motion_23_ Universal_Status_Effects/
+mods-unpacked/Redsuperninja-FixedCoopSynergies/assets/vfx/Vivid_Motion_23_ Universal_Status_Effects/
 ```
 
 keeping the pack's own folder layout — the mod loads

@@ -10,36 +10,36 @@
 # get wired next. The routing-test diagnostic/overlay is gone — replaced by lib/skill_hud.gd.
 extends Node
 
-const Config = preload("res://mods-unpacked/Redsuperninja-Synergies/config.gd")
-const SkillHud = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/skill_hud.gd")
-const AoeRing = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/aoe_ring.gd")
-const CharselPanel = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/charsel_panel.gd")
-const HealAura = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/heal_aura.gd")
-const Beam = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/beam.gd")
-const Lightning = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/lightning.gd")
-const SummonTurret = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/summon_turret.gd")
-const ModSettings = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/mod_settings.gd")
-const SettingsPanel = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/settings_panel.gd")
-const CharacterCodex = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/character_codex.gd")
+const Config = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/config.gd")
+const SkillHud = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/skill_hud.gd")
+const AoeRing = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/aoe_ring.gd")
+const CharselPanel = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/charsel_panel.gd")
+const HealAura = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/heal_aura.gd")
+const Beam = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/beam.gd")
+const Lightning = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/lightning.gd")
+const SummonTurret = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/summon_turret.gd")
+const ModSettings = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/mod_settings.gd")
+const SettingsPanel = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/settings_panel.gd")
+const CharacterCodex = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/character_codex.gd")
 
 # Procedural VFX (ported from Alexandre-ActiveSkills, pure _draw() Node2D)
-const VfxArcaneRing = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/arcane_ring.gd")
-const VfxBuffAura = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/buff_aura.gd")
-const VfxBuffRing = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/buff_ring.gd")
-const VfxExplosionBurst = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/explosion_burst.gd")
-const VfxHitBurst = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/hit_burst.gd")
-const VfxNecroticPulse = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/necrotic_pulse.gd")
-const VfxStompShockwave = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/stomp_shockwave.gd")
-const VfxStoneScatter = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/stone_scatter.gd")
-const VfxVortexBurst = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/vortex_burst.gd")
-const VfxTracerLine = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/tracer_line.gd")
-const VfxPrecisionFlash = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/precision_flash.gd")
-const VfxEnergyShockwave = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/energy_shockwave.gd")
+const VfxArcaneRing = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/vfx/arcane_ring.gd")
+const VfxBuffAura = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/vfx/buff_aura.gd")
+const VfxBuffRing = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/vfx/buff_ring.gd")
+const VfxExplosionBurst = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/vfx/explosion_burst.gd")
+const VfxHitBurst = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/vfx/hit_burst.gd")
+const VfxNecroticPulse = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/vfx/necrotic_pulse.gd")
+const VfxStompShockwave = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/vfx/stomp_shockwave.gd")
+const VfxStoneScatter = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/vfx/stone_scatter.gd")
+const VfxVortexBurst = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/vfx/vortex_burst.gd")
+const VfxTracerLine = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/vfx/tracer_line.gd")
+const VfxPrecisionFlash = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/vfx/precision_flash.gd")
+const VfxEnergyShockwave = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/vfx/energy_shockwave.gd")
 
 # Sprite-sheet VFX (Vivid Motions 23 status-effect pack — 4x4 64px sheets). One generic player
 # (lib/vfx/sprite_vfx.gd) animates any of them; _spawn_sprite_vfx maps an effect name → its sheet.
-const SpriteVfx = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/sprite_vfx.gd")
-const VIVID_DIR := "res://mods-unpacked/Redsuperninja-Synergies/assets/vfx/Vivid_Motion_23_ Universal_Status_Effects"
+const SpriteVfx = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/vfx/sprite_vfx.gd")
+const VIVID_DIR := "res://mods-unpacked/Redsuperninja-FixedCoopSynergies/assets/vfx/Vivid_Motion_23_ Universal_Status_Effects"
 
 # The game's own character-outline shader (the "Làm Nổi Nhân Vật" setting) — a canvas_item shader that
 # traces the sprite silhouette. We reuse it with white to mark a shielded player. Loaded lazily (game res).

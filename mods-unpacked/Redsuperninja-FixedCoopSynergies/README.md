@@ -1,4 +1,4 @@
-# Redsuperninja-Synergies — Co-op Synergies (Brotato mod)
+# Redsuperninja-FixedCoopSynergies — Co-op Synergies (Brotato mod)
 
 Turns Brotato co-op into a team game: per-character **active skills**, faction **affinities**
 (buff + nerf when related characters team up), and a **role** read on every character.

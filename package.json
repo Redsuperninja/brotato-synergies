@@ -1,10 +1,9 @@
 {
   "name": "brotato-synergies-tools",
   "private": true,
-  "description": "Image tooling for the Co-op Synergies mod assets (skill icons, Workshop thumbnail). The mod itself is GDScript and needs none of this.",
+  "description": "Image tooling for the Fixed Coop Synergies skill icons. The mod itself is GDScript and needs none of this; the Workshop thumbnail is built by tools/make_thumbnail.py.",
   "scripts": {
-    "icons:mask": "bun run tools/circle-mask-icons.ts",
-    "thumbnail": "bun run tools/make-thumbnail.ts"
+    "icons:mask": "bun run tools/circle-mask-icons.ts"
   },
   "devDependencies": {
     "sharp": "0.34.5"

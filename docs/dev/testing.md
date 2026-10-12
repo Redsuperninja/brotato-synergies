@@ -42,7 +42,7 @@ skills unlock at level 1, cooldowns are short, factions activate with one member
 you can pause and read the stat panel.
 
 Then read `%APPDATA%\Brotato\logs\godot.log`:
-- `[Synergies] loaded v<version>` and no `SCRIPT ERROR` above it;
+- `[Synergies] loaded Fixed Coop Synergies v<version>` and no `SCRIPT ERROR` above it;
 - a `CAST` line per cast, `[stat] pi=… +N` when a buff applies and the matching `-N` when it expires.
 
 The step-by-step script for the current release is in [`../testing/`](../testing/).

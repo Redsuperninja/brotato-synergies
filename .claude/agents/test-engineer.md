@@ -11,7 +11,7 @@ You own Co-op Synergies check quality. There is no game test runner, so checking
 - Static: `python tools/check_config.py` (content and stat keys) and `gdparse` on changed `.gd` files.
   Extend `check_config.py` when a new rule can be checked without the game.
 - Build: `./build-zip.sh` and `BUILD_RELEASE=1 ./build-zip.sh` both succeed, and the zip holds the mod at
-  `mods-unpacked/Redsuperninja-Synergies/`.
+  `mods-unpacked/Redsuperninja-FixedCoopSynergies/`.
 - In-game: you can't play, so write the owner a short numbered test script (which characters, solo or
   co-op, what to press, what the stat panel and `godot.log` should show) in `docs/testing/`.
 

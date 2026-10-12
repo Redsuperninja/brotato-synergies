@@ -6,7 +6,7 @@
 # "synergies off + solo-skills on" is a valid combo: skills in solo, nothing in co-op.
 extends Reference
 
-const PATH := "user://redsuperninja_synergies_settings.cfg"
+const PATH := "user://fixed_coop_synergies_settings.cfg"
 const SECTION := "synergies"
 
 var _cfg : ConfigFile = null

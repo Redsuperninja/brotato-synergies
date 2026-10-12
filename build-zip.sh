@@ -6,9 +6,9 @@ set -euo pipefail
 # expects (it mounts the zip at res://). .DS_Store is excluded.
 #
 # Usage:  ./build-zip.sh
-# Output: dist/Redsuperninja-Synergies.zip
+# Output: dist/Redsuperninja-FixedCoopSynergies.zip
 
-MOD_ID="Redsuperninja-Synergies"
+MOD_ID="Redsuperninja-FixedCoopSynergies"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OUT_DIR="${SCRIPT_DIR}/dist"
 OUT="${OUT_DIR}/${MOD_ID}.zip"
@@ -62,4 +62,4 @@ if command -v unzip >/dev/null 2>&1; then
   echo "--- contents (must start with mods-unpacked/${MOD_ID}/) ---"
   unzip -l "${OUT}" | sed -n '3,8p'
 fi
-echo "Test locally: ./sync-to-mac.sh (after publishing + subscribing once)."
+echo "Test locally: ./sync-to-workshop.sh (after publishing + subscribing once)."

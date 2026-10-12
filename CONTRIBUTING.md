@@ -20,7 +20,7 @@ template asks for exactly what is needed. Two things matter more than anything e
 | Windows | `%APPDATA%\Brotato\logs\godot.log` |
 | Linux | `~/.local/share/Brotato/logs/godot.log` |
 
-The mod prints `[Synergies] loaded v<version>` on start and `[Synergies] CAST place=… char=… tier=…`
+The mod prints `[Synergies] loaded Fixed Coop Synergies v<version>` on start and `[Synergies] CAST place=… char=… tier=…`
 on every cast, so the log usually shows immediately whether the cast fired and for which player.
 
 **2. If it happened in co-op, say exactly which input device each player used.** Local keyboard + one
@@ -36,18 +36,18 @@ the Brotato version, the ModLoader version, and any other mods you have enabled.
    touch the scripts in `tools/`.
 2. **Get the third-party VFX pack.** *Vivid Motion 23 — Universal Status Effects* is not in this
    repository and cannot be redistributed here. Obtain it yourself and place it at
-   `mods-unpacked/Redsuperninja-Synergies/assets/vfx/Vivid_Motion_23_ Universal_Status_Effects/`, keeping the
+   `mods-unpacked/Redsuperninja-FixedCoopSynergies/assets/vfx/Vivid_Motion_23_ Universal_Status_Effects/`, keeping the
    pack's own folder layout. Without it everything still builds and runs — the spritesheet status
    effects just do not render — so it is optional unless you are working on those.
 3. Brotato's shipped build loads mods **only** from the Steam Workshop content directory. You need
-   the mod published and subscribed once so its Workshop folder exists; `sync-to-mac.sh` then
+   the mod published and subscribed once so its Workshop folder exists; `sync-to-workshop.sh` then
    overwrites the downloaded zip in place.
 
 ## Build and test loop
 
 ```bash
-./build-zip.sh     # dist/Redsuperninja-Synergies.zip — TEST build
-./sync-to-mac.sh   # build + copy into the local Steam Workshop item folder
+./build-zip.sh     # dist/Redsuperninja-FixedCoopSynergies.zip — TEST build
+WS_ITEM=<id> ./sync-to-workshop.sh   # build + copy into the local Steam Workshop item folder
 ```
 
 Then relaunch Brotato and read the log. The default (test) build flips `TEST_MODE := true` in
@@ -57,7 +57,7 @@ buffs last 20s so you can pause and read the stat panel, a gating diagnostic pri
 and the solo-skills toggle appears in Options → Accessibility. `BUILD_RELEASE=1 ./build-zip.sh`
 produces the real thing.
 
-`sync-to-mac.sh` is macOS-flavoured; on Linux/Windows set `WS_DIR` to your Workshop item folder.
+`sync-to-workshop.sh` knows the default Steam folder on macOS, Windows (Git Bash) and Linux; set `WS_DIR` if yours differs.
 
 ## GDScript house rules
 
@@ -146,7 +146,7 @@ First `python tools/check_config.py`, `gdparse` on every `.gd` you changed, and 
 ([docs/dev/testing.md](docs/dev/testing.md)). Then build, sync, launch the game, and read the log.
 A useful pass covers at least:
 
-- the mod loads (`[Synergies] loaded v<version>` with no parse errors above it);
+- the mod loads (`[Synergies] loaded Fixed Coop Synergies v<version>` with no parse errors above it);
 - the skill fires — the `CAST` line appears with the right place, character and tier;
 - the effect actually happens on screen and the numbers move in the pause-screen stat panel
   (`TEST_MODE`'s 20-second buffs exist for exactly this);

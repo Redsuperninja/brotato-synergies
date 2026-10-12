@@ -1,6 +1,6 @@
 ---
 name: gdscript-engineer
-description: Implements Co-op Synergies mod code in mods-unpacked/Redsuperninja-Synergies/ (Godot 3.x GDScript, Godot Mod Loader 6.x) and the build tooling. Use for skill templates, riders, the HUD, menus, the controller and build scripts. Not for choosing balance numbers (game-designer).
+description: Implements Co-op Synergies mod code in mods-unpacked/Redsuperninja-FixedCoopSynergies/ (Godot 3.x GDScript, Godot Mod Loader 6.x) and the build tooling. Use for skill templates, riders, the HUD, menus, the controller and build scripts. Not for choosing balance numbers (game-designer).
 tools: Read, Grep, Glob, Write, Edit, Bash
 model: sonnet
 ---

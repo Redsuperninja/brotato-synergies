@@ -10,7 +10,7 @@ cut every icon to a transparent circle.
 For EACH entry in the list below, generate ONE **256×256 PNG** and SAVE it to:
 
 ```
-<repo>/mods-unpacked/Redsuperninja-Synergies/assets/skills/<slug>.png
+<repo>/mods-unpacked/Redsuperninja-FixedCoopSynergies/assets/skills/<slug>.png
 ```
 
 …where `<slug>` is the first field of the entry (e.g. `doctor` → `doctor.png`). Create the folder if needed.
@@ -102,7 +102,7 @@ After saving each file, keep going until all 64 exist.
 ```bash
 # from the repo root
 bun install
-bun run tools/circle-mask-icons.ts mods-unpacked/Redsuperninja-Synergies/assets/skills
+bun run tools/circle-mask-icons.ts mods-unpacked/Redsuperninja-FixedCoopSynergies/assets/skills
 ```
 
 This processes every `.png` in the folder (corners → transparent). Add `--radius 122` if a thin

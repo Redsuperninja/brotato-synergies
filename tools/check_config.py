@@ -7,7 +7,7 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MOD = os.path.join(ROOT, "mods-unpacked", "Redsuperninja-Synergies")
+MOD = os.path.join(ROOT, "mods-unpacked", "Redsuperninja-FixedCoopSynergies")
 
 # Keys in the game's per-player stat table (PlayerRunData.init_stats, Brotato 1.1.x). TempStats.add_stat
 # only accepts these; anything else is ignored by the game.
@@ -128,6 +128,29 @@ if version is None or version.group(1) != manifest["version_number"]:
     errors.append("MOD_VERSION in config.gd does not match manifest.json version_number")
 if "%s-%s" % (manifest["namespace"], manifest["name"]) != os.path.basename(MOD):
     errors.append("manifest namespace-name does not match the mod folder name")
+
+# Workshop page: what publish-steamcmd.sh would upload.
+vdf = open(os.path.join(ROOT, "workshop_item.vdf"), encoding="utf8").read()
+name = re.search(r'const MOD_NAME := "([^"]+)"', open(os.path.join(MOD, "config.gd"), encoding="utf8").read())
+title = re.search(r'"title"\s+"([^"]*)"', vdf)
+item = re.search(r'"publishedfileid"\s+"(\d+)"', vdf)
+desc = re.search(r'"description"\s+"([^"]*)"\s*\n\s*"changenote"', vdf)
+if name is None or title is None or title.group(1) != name.group(1):
+    errors.append("workshop_item.vdf title does not match MOD_NAME in config.gd")
+if item is None or item.group(1) == "3745283747":
+    errors.append("workshop_item.vdf publishedfileid must be this fork's item (or 0), not the original's")
+if desc is None:
+    errors.append("workshop_item.vdf description is missing or contains a double quote (breaks the .vdf)")
+else:
+    if len(desc.group(1)) > 8000:
+        errors.append("Workshop description is %d characters; Steam's limit is 8000" % len(desc.group(1)))
+    if ">>>" in desc.group(1) or "MEDIA" in desc.group(1):
+        errors.append("Workshop description still has a >>> MEDIA placeholder line")
+    if "hhoangg" not in desc.group(1):
+        errors.append("Workshop description must credit the original author, hhoangg")
+thumb = os.path.join(ROOT, "thumbnail.jpeg")
+if not os.path.isfile(thumb) or os.path.getsize(thumb) >= 1024 * 1024:
+    errors.append("thumbnail.jpeg is missing or not under Steam's 1 MB preview limit")
 
 for w in warnings:
     print("warning: " + w)

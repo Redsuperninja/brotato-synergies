@@ -5,8 +5,8 @@
 # damage/heal/targeting helpers it already owns.
 extends Node2D
 
-const Beam = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/beam.gd")
-const Lightning = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/lightning.gd")
+const Beam = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/beam.gd")
+const Lightning = preload("res://mods-unpacked/Redsuperninja-FixedCoopSynergies/lib/lightning.gd")
 
 var _ctrl = null            # the synergies controller (helpers: _nearest_enemy/_spawn_aoe_hitbox/_turret_heal/_in_wave)
 var _caster = null          # summoning player node (damage attribution)

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Publish the Co-op Synergies mod to the Steam Workshop via SteamCMD — WITHOUT
+# Publish Fixed Coop Synergies to the Steam Workshop via SteamCMD — WITHOUT
 # GodotWorkshopUtility, so the Workshop title from workshop_item.vdf sticks
 # (GodotWorkshopUtility has no title field and force-sets the title to the mod id).
 #
@@ -9,16 +9,21 @@ set -euo pipefail
 # a new Workshop item and prints its id (PublishedFileID). Paste that id back into
 # workshop_item.vdf's "publishedfileid" so every later run UPDATES that same item.
 #
+# VISIBILITY: workshop_item.vdf ships "visibility" "2" (private) so the first upload can be subscribed
+# to and playtested before anyone else sees it. Set it to "0" (public) and run again to release.
+#
 # Prereqs:
-#   - steamcmd installed:        brew install --cask steamcmd
+#   - steamcmd: macOS `brew install --cask steamcmd`; Windows: download steamcmd.zip from Valve
+#     (https://developer.valvesoftware.com/wiki/SteamCMD), unzip it, and put the folder on PATH or set
+#     STEAMCMD=/c/path/to/steamcmd.exe
 #   - the Steam account you log in with OWNS Brotato (and, after creation, owns this item)
-#   - a preview image at thumbnail.png  (you provide this)
+#   - the preview image thumbnail.jpeg (python tools/make_thumbnail.py rebuilds it)
 #
 # Usage:
 #   ./publish-steamcmd.sh <steam_account>
-#   (the first login prompts for your Steam Guard code, interactively)
+#   (the first login prompts for your password and Steam Guard code, interactively)
 
-MOD_ID="Redsuperninja-Synergies"
+MOD_ID="Redsuperninja-FixedCoopSynergies"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DIST="${SCRIPT_DIR}/dist"
 CONTENT="${DIST}/content"                       # the folder Steam uploads: must hold ONLY the zip
@@ -32,12 +37,21 @@ if [ -z "${STEAM_ACCOUNT}" ]; then
   exit 1
 fi
 
-if ! command -v steamcmd >/dev/null 2>&1; then
-  echo "error: steamcmd not found. Install it: brew install --cask steamcmd" >&2
+STEAMCMD="${STEAMCMD:-$(command -v steamcmd || command -v steamcmd.exe || true)}"
+if [ -z "${STEAMCMD}" ]; then
+  echo "error: steamcmd not found. Install it (see the header of this script) or set STEAMCMD=<path>." >&2
   exit 1
 fi
 [ -f "${TEMPLATE}" ] || { echo "error: missing ${TEMPLATE}" >&2; exit 1; }
-[ -f "${PREVIEW}" ]  || { echo "error: missing preview image ${PREVIEW} (add your thumbnail.png)" >&2; exit 1; }
+[ -f "${PREVIEW}" ]  || { echo "error: missing preview image ${PREVIEW} (run: python tools/make_thumbnail.py)" >&2; exit 1; }
+
+# steamcmd.exe on Windows can't resolve Git Bash paths (/c/...): hand it C:/... instead (forward
+# slashes need no escaping in the .vdf). Elsewhere paths pass through unchanged.
+native_path() { if command -v cygpath >/dev/null 2>&1; then cygpath -m "$1"; else echo "$1"; fi; }
+
+# 0) Refuse to upload content or a Workshop page that fails the static checks.
+PY="$(command -v python3 || command -v python)"
+"${PY}" "${SCRIPT_DIR}/tools/check_config.py" || { echo "error: tools/check_config.py failed; not uploading." >&2; exit 1; }
 
 # 1) Build the mod zip (release mode: TEST_MODE=false).
 BUILD_RELEASE=1 "${SCRIPT_DIR}/build-zip.sh" >/dev/null
@@ -51,8 +65,8 @@ cp "${DIST}/${MOD_ID}.zip" "${CONTENT}/"
 
 # 3) Render the .vdf with ABSOLUTE paths (steamcmd resolves contentfolder/previewfile from
 #    its own cwd, so relative paths are unreliable). '|' avoids clashing with '/' in paths.
-sed -e "s|__CONTENTFOLDER__|${CONTENT}|g" \
-    -e "s|__PREVIEWFILE__|${PREVIEW}|g" \
+sed -e "s|__CONTENTFOLDER__|$(native_path "${CONTENT}")|g" \
+    -e "s|__PREVIEWFILE__|$(native_path "${PREVIEW}")|g" \
     "${TEMPLATE}" > "${GENERATED}"
 
 echo "--- ${GENERATED} ---"
@@ -66,6 +80,6 @@ fi
 
 # 4) Upload. First login is interactive (Steam Guard). On success steamcmd prints the id.
 echo "Uploading as Steam account '${STEAM_ACCOUNT}'…"
-steamcmd +login "${STEAM_ACCOUNT}" +workshop_build_item "${GENERATED}" +quit
+"${STEAMCMD}" +login "${STEAM_ACCOUNT}" +workshop_build_item "$(native_path "${GENERATED}")" +quit
 
 echo "Done. If this was the first upload, paste the PublishedFileID into ${TEMPLATE}."

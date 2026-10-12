@@ -1,15 +1,16 @@
-# Config for the Co-op Synergies mod (Redsuperninja-Synergies).
+# Config for Fixed Coop Synergies (Redsuperninja-FixedCoopSynergies), a fork of Co-op Synergies by hhoangg.
 # Framework constants for the per-character active-skill system + faction affinities.
 extends Reference
 
-const MOD_ID := "Redsuperninja-Synergies"
+const MOD_ID := "Redsuperninja-FixedCoopSynergies"
+const MOD_NAME := "Fixed Coop Synergies"   # display name: Workshop title, HUD watermark, load log
 
 # Shown in the load log so you can confirm the installed build at a glance.
 # KEEP IN SYNC with manifest.json "version_number".
 const MOD_VERSION := "0.40.0"
 
 # ---- Skill icons (one per character slug; generated, masked to a transparent circle) ----
-const SKILLS_ICON_DIR := "res://mods-unpacked/Redsuperninja-Synergies/assets/skills"
+const SKILLS_ICON_DIR := "res://mods-unpacked/Redsuperninja-FixedCoopSynergies/assets/skills"
 
 # ---- Active-skill framework rules (see docs/superpowers/specs co-op-depth design) ----
 # ---- TEST MODE — lower the gates so we can iterate without grinding a real run ----
@@ -771,7 +772,7 @@ const SKILLS := {
 		"role": ROLE_LATE,
 		"template": TMPL_SUMMON,
 		"cooldown_class": "slow",
-		"sprite": "res://mods-unpacked/Redsuperninja-Synergies/assets/skills/curious.png",
+		"sprite": "res://mods-unpacked/Redsuperninja-FixedCoopSynergies/assets/skills/curious.png",
 		"shot": "none",
 		"interval": 999.0,
 		"range": 300.0,
