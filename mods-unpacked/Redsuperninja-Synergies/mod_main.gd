@@ -4,8 +4,8 @@
 # input spike (the feasibility gate, see the co-op-depth design doc) is validated.
 extends Node
 
-const Config = preload("res://mods-unpacked/tato-Synergies/config.gd")
-const SynergiesController = preload("res://mods-unpacked/tato-Synergies/lib/synergies_controller.gd")
+const Config = preload("res://mods-unpacked/Redsuperninja-Synergies/config.gd")
+const SynergiesController = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/synergies_controller.gd")
 
 
 func _init() -> void:

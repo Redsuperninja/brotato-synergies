@@ -3,7 +3,7 @@
 # Font is COPIED from the game's passive labels (size match); text is localized (VI + EN, default EN).
 extends Control
 
-const Config = preload("res://mods-unpacked/tato-Synergies/config.gd")
+const Config = preload("res://mods-unpacked/Redsuperninja-Synergies/config.gd")
 
 const NODE_NAME := "SynergiesSkill"
 # All co-op character panels (Panel1 = host/P1 … Panel4). We inject a skill+faction card into EACH
@@ -32,7 +32,7 @@ const STAT_NAME := {
 		"stat_dodge": "Dodge", "stat_ranged_damage": "Ranged Dmg", "stat_range": "Range",
 		"stat_lifesteal": "Lifesteal", "stat_hp_regeneration": "HP Regen", "stat_harvesting": "Harvest",
 		"stat_engineering": "Engineering", "stat_melee_damage": "Melee Dmg", "stat_elemental_damage": "Elemental",
-		"stat_xp_gain": "XP Gain",
+		"stat_xp_gain": "XP Gain", "stat_percent_damage": "Damage", "xp_gain": "XP Gain",
 	},
 	"vi": {
 		"stat_attack_speed": "Tốc Độ Đánh", "stat_luck": "May Mắn", "stat_crit_chance": "Chí Mạng",
@@ -40,7 +40,7 @@ const STAT_NAME := {
 		"stat_dodge": "Né", "stat_ranged_damage": "ST Tầm Xa", "stat_range": "Tầm Đánh",
 		"stat_lifesteal": "Hút Máu", "stat_hp_regeneration": "Hồi Máu", "stat_harvesting": "Thu Hoạch",
 		"stat_engineering": "Kỹ Thuật", "stat_melee_damage": "ST Cận Chiến", "stat_elemental_damage": "ST Nguyên Tố",
-		"stat_xp_gain": "Kinh Nghiệm",
+		"stat_xp_gain": "Kinh Nghiệm", "stat_percent_damage": "Sát Thương", "xp_gain": "Kinh Nghiệm",
 	},
 }
 const ROLE_NAME := {
@@ -67,6 +67,7 @@ const T := {
 		"l_blink": "Blink to", "l_lowhp": "Lowest-HP ally", "l_hot": "Heal",
 		"l_burst": "Burst", "l_charm": "Charm", "l_materials": "Materials", "l_bonus": "Bonus", "l_team": "Whole team",
 		"l_effects": "Effects", "l_scales": "(scales)", "l_beam": "laser", "l_volley": "volley", "l_blast": "blast",
+		"l_till_wave_end": "until wave end",
 	},
 	"vi": {
 		"active": "Kỹ Năng Chủ Động", "self": "Bản thân", "team": "Cả đội", "shield": "Bản thân (khiên)",
@@ -87,6 +88,7 @@ const T := {
 		"l_blink": "Dịch chuyển", "l_lowhp": "Đồng đội ít máu nhất", "l_hot": "Hồi máu",
 		"l_burst": "Nổ", "l_charm": "Mê hoặc", "l_materials": "Vật liệu", "l_bonus": "Thưởng", "l_team": "Cả đội",
 		"l_effects": "Hiệu ứng", "l_scales": "(tăng theo)", "l_beam": "laser", "l_volley": "loạt", "l_blast": "nổ",
+		"l_till_wave_end": "đến hết đợt",
 	},
 }
 const ROLE_COL := {
@@ -749,7 +751,10 @@ func _rebuild_stats(box, skill) -> void:
 	var stats : Dictionary = skill.get("stats", {})
 	var per : Dictionary = skill.get("stats_per_tier", {})
 	for k in stats.keys():
-		_stat_row(box, _stat_name(k), "+" + _rng(int(stats[k]), int(per.get(k, 0))))
+		var val := "+" + _rng(int(stats[k]), int(per.get(k, 0)))
+		if k == "stat_harvesting":
+			val += " (" + _t("l_till_wave_end") + ")"   # harvesting pays out at wave end, so it lasts until then
+		_stat_row(box, _stat_name(k), val)
 	# Drain (heal-on-cast) rider.
 	if int(skill.get("drain", 0)) > 0:
 		var dlbl := _t("l_heal") + (" (" + _t("team") + ")" if bool(skill.get("drain_party", false)) else "")

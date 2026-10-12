@@ -1,11 +1,13 @@
 "workshopitem"
 {
 	"appid"            "1942280"
-	"publishedfileid"  "3745283747"
+	"publishedfileid"  "0"
 	"contentfolder"    "__CONTENTFOLDER__"
 	"previewfile"      "__PREVIEWFILE__"
-	"title"            "Co-op Synergies — Roles, Skills & Affinities"
-	"description"      "[h1]Co-op Synergies[/h1]
+	"title"            "Co-op Synergies (Redsuperninja Fork) — Roles, Skills & Affinities"
+	"description"      "[h1]Co-op Synergies — Redsuperninja Fork[/h1]
+A fork of [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3745283747]Co-op Synergies[/url] by [b]hhoangg (byptah)[/b], with stat fixes, rebalanced factions and a faction for every character. Do not enable both mods at once.
+
 Turns Brotato co-op into a team game — every character gains an active skill, factions that buff (and nerf) when teamed up, and a role that reads at a glance. [b](Work in progress.)[/b]
 
 >>> MEDIA (hero): a short looping GIF/video of a 2-player co-op fight with a couple of skills firing (e.g. Engineer turret + a dash). Best first impression — replace this line. <<<
@@ -43,14 +45,11 @@ Requires Godot Mod Loader.
 
 [h1]Source code / Contribute[/h1]
 This mod is open source. Fork it, learn from it, or send a fix — the code is MIT and the mod's own art and audio are CC BY 4.0, so you are free to reuse and build on any of it as long as you credit the original.
-[b]Repository:[/b] [url=https://github.com/hhoangg/brotato-synergies]github.com/hhoangg/brotato-synergies[/url]
+[b]Repository:[/b] [url=https://github.com/Redsuperninja/brotato-synergies]github.com/Redsuperninja/brotato-synergies[/url]
 Bug reports and ideas are welcome as GitHub issues, or as a comment here.
 
-[h1]Support / Donate[/h1]
-Made for fun and free — if you'd like to support development, donations are welcome:
-[b]SOL:[/b] BrbAhUTN6EPPnPLg9C4823esQyxCHKYfe8SyxF7oyeZF
-[b]ETH:[/b] 0x2ba15d62dc27e45e4cb5ecada8969f2b13e7d534
-[b]BTC:[/b] bc1p4sn9quh0g72rmmr4j5chyauc3msj2xxva4rw8kd0w93a8dkt3gcsn253gh
-Thank you!"
-	"changenote"       "v0.39.14 — FIX: co-op active-skill player/input mapping. The mod read CoopService.connected_players[i][1] as the player slot, but that field is the controller TYPE (keyboard/Xbox/PlayStation/Switch) — the slot is the entry's index. Result: inputs were cross-mapped between players, and with two same-brand pads (or Steam Remote Play Together) one player got no skill at all. Places are now derived from the player index, so keyboard+controller, two controllers and Remote Play Together all route each player to their own skill. Thanks to ReJlax for the report and the diagnosis."
+[h1]Credits[/h1]
+Original mod, skill design and all 64 skill icons by [b]hhoangg (byptah)[/b]: [url=https://github.com/hhoangg/brotato-synergies]github.com/hhoangg/brotato-synergies[/url]. Code MIT, icons CC BY 4.0. If you enjoy it, consider supporting the original author: [url=https://ko-fi.com/hhoangg]ko-fi.com/hhoangg[/url]
+This fork is maintained by Redsuperninja."
+	"changenote"       "v0.40.0 (Redsuperninja fork) — Stats can no longer go negative: every skill buff and faction trait now uses the game's own temporary-stat system, so dodge, speed and armor are no longer corrupted when a buff ends. Damage and XP Gain buffs now actually apply (they used stat names the game ignores), as do attack speed, crit, range and engineering on weapons and turrets. Faction nerfs never push a stat below zero. Two new factions (Iron Fists, All-Rounders) so all 64 characters have one. Enemy slows/freezes no longer leave enemies stuck. Saver/Buccaneer material drops now pay out."
 }

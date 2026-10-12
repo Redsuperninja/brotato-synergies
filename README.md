@@ -1,4 +1,9 @@
-# Co-op Synergies
+# Co-op Synergies — Redsuperninja Fork
+
+> A fork of [**Co-op Synergies**](https://github.com/hhoangg/brotato-synergies) by **hhoangg (byptah)**,
+> who designed the mod, its 64 skills and its icons. This fork is maintained by **Redsuperninja**.
+> Changes since the fork are listed in [CHANGELOG.md](CHANGELOG.md). Don't enable this fork and the
+> original at the same time (the manifest marks them incompatible).
 
 A [Brotato](https://store.steampowered.com/app/1942280/Brotato/) mod that turns co-op into a team
 draft. Every one of the 64 characters gets its own active skill on a free button, characters that
@@ -7,10 +12,11 @@ play together, and every character reads as a role (Carry, Caster, Tank, Support
 Flex) so a party becomes a composition instead of four unrelated runs happening in the same arena.
 
 Godot 3.x GDScript mod for [Godot Mod Loader](https://github.com/GodotModding/godot-mod-loader) 6.x.
-Mod id `tato-Synergies`, author **hhoangg** (namespace `tato`).
+Mod id `Redsuperninja-Synergies` (namespace `Redsuperninja`), forked from `tato-Synergies` by hhoangg.
 
-The full skill and faction list — per-tier numbers included — lives on the companion site:
-**<https://brotato.byptah.com/synergies>** (its source is not in this repository).
+The original mod's companion site, **<https://brotato.byptah.com/synergies>**, lists skills and
+factions as they are in the original. This fork's factions and numbers differ; `config.gd` is the
+source of truth here.
 
 ---
 
@@ -33,16 +39,26 @@ the skill's `cooldown_class`: `fast` ×0.5 (~4 casts/wave), `normal` ×1.0 (~2/w
 `slow` ×1.6 (~1.2/wave). 15 skills are fast, 12 are slow, the rest normal.
 
 **Endless scaling.** Fixed tier numbers go stale once enemies get tanky, so skill damage is
-multiplied by a wave factor (+15%/wave, `SKILL_WAVE_DMG_GROWTH`; heals +12%) and a tier-growing
-share of the caster's Damage stat is added on top (×1.0 at tier 1, +0.25 per tier → ×2.0 at tier 5).
+multiplied by a wave factor (+15%/wave, `SKILL_WAVE_DMG_GROWTH`; heals +12%) and by the caster's
+Damage % with a tier-growing share (×1.0 at tier 1, +0.25 per tier → ×2.0 at tier 5), floored at 25%
+so a negative-Damage build still hits (`SKILL_MIN_DMG_MULT`).
 
-**Faction affinities.** 11 factions — Same Boat, Arcane, Machines, The Damned, Crown & Steel,
-The Wild, Hustlers, The Caretakers, Reckless, Late Bloomers, Drifters. Two or more members in the
+**Faction affinities.** 13 factions — Same Boat, Arcane, Machines, The Damned, Crown & Steel,
+The Wild, Iron Fists, Hustlers, The Caretakers, Reckless, Late Bloomers, Drifters, All-Rounders.
+**Every one of the 64 characters belongs to at least one.** Two or more members in the
 run activates the faction's tier-2 bundle; three or more upgrades it to tier 3. Every bundle is a
-**team buff plus a team nerf** (e.g. Arcane: +20% Elemental Damage, −8 Max HP), and some factions add
-a named-pair bonus when two specific characters are both present (Mage + Apprentice, King + Knight).
-Characters sit in more than one faction, so the draft has depth. Traits are applied team-wide at each
-wave start and cleared at wave end.
+**team buff plus a team nerf** (e.g. Arcane: +20% Elemental Damage, −6 Max HP), and some factions add
+a named-pair bonus when two specific characters are both present (Mage + Apprentice, King + Knight,
+Hunter + Ranger). Characters sit in more than one faction, so the draft has depth. Traits are applied
+team-wide at each wave start and cleared at wave end.
+
+A nerf only takes away what a player has: it never pushes a stat below 0 (Max HP never below 10,
+`AFFINITY_NERF_FLOOR`), and no faction nerfs Harvesting, since negative Harvesting costs materials.
+
+**How stats are applied.** Every skill buff and faction trait goes through the game's own `TempStats`
+layer, the one its "while below half HP" items use. The game reloads the player, their weapons and
+their structures from it, and resets it at the start and end of every wave, so nothing can leak into
+the shop or a save. Harvesting from a skill lasts until the wave ends, because that is when it pays out.
 
 **Roles.** Every character carries a role tag that drives its skill archetype and the colour coding
 on the info cards: Carry (19), Late (9), Support (8), Tank (8), Skirmisher (8), Caster (7), Flex (5).
@@ -62,9 +78,9 @@ Vietnamese; the UI picks the language from the game's locale and falls back to E
 
 1. Install [Godot Mod Loader](https://github.com/GodotModding/godot-mod-loader) for Brotato (the
    game must be started with mods enabled).
-2. Subscribe to the mod on the Steam Workshop:
-   **[Co-op Synergies — Roles, Skills & Affinities](https://steamcommunity.com/sharedfiles/filedetails/?id=3745283747)**
-   (item `3745283747`).
+2. Subscribe to this fork on the Steam Workshop once it is published (the original lives at
+   [item 3745283747](https://steamcommunity.com/sharedfiles/filedetails/?id=3745283747); use one or
+   the other, not both).
 3. Start Brotato, start a **Co-op** run, and make sure the **Synergies** toggle in the
    character-select Run Options panel is on (it is on by default).
 
@@ -83,7 +99,7 @@ Or install manually: build the zip (below) and drop it into your Brotato mods fo
   shop/menu confirm.
 - **Synergies on/off:** a `Synergies` check button is injected into the character-select **Run
   Options** panel, right under Co-op (it is only visible while Co-op is on). Default: on.
-- Settings are stored in the mod's own file, `user://tato_synergies_settings.cfg` — the game's own
+- Settings are stored in the mod's own file, `user://redsuperninja_synergies_settings.cfg` — the game's own
   save is never touched. There is a second, independent setting (`skills_solo`, default off) that
   enables skills in solo play; it is injected into **Options → Accessibility** and honoured **only in
   test builds** — a published release build never grants solo skills, since skills are a co-op
@@ -97,8 +113,8 @@ Requirements: `bash` and `zip`. The optional icon/thumbnail tools in `tools/` ne
 [Bun](https://bun.sh) and `sharp`.
 
 ```bash
-./build-zip.sh                    # → dist/tato-Synergies.zip  (TEST build)
-BUILD_RELEASE=1 ./build-zip.sh    # → dist/tato-Synergies.zip  (RELEASE build)
+./build-zip.sh                    # → dist/Redsuperninja-Synergies.zip  (TEST build)
+BUILD_RELEASE=1 ./build-zip.sh    # → dist/Redsuperninja-Synergies.zip  (RELEASE build)
 ```
 
 `build-zip.sh` rewrites two constants in `config.gd` before zipping and restores the file afterwards
@@ -114,7 +130,7 @@ cooldown to ~5% of the wave, lowers the faction activation threshold to 1 member
 durations to 20s so you can read them in the pause screen, prints a once-a-second gating diagnostic,
 and exposes the solo-skills toggle. `ENABLE_IN_SOLO` is currently only declared, not read at runtime.
 
-The zip's internal layout is `mods-unpacked/tato-Synergies/…`, which is what the ModLoader expects.
+The zip's internal layout is `mods-unpacked/Redsuperninja-Synergies/…`, which is what the ModLoader expects.
 Only the Vivid spritesheets are bundled — the per-frame PNGs, preview gifs and unused packs are
 excluded so the published zip stays lean.
 
@@ -162,7 +178,7 @@ SKILL-ICON-PROMPTS.md     the image prompts used to generate the 64 skill icons
 tools/
   circle-mask-icons.ts    cut generated icons to a transparent circle (Bun + sharp)
   make-thumbnail.ts       composite the Workshop thumbnail title onto the art
-mods-unpacked/tato-Synergies/
+mods-unpacked/Redsuperninja-Synergies/
   manifest.json           ModLoader manifest (id, version_number, ML 6.x compatibility)
   mod_main.gd             ModLoader entry point; spawns the persistent controller
   config.gd               ALL tunables + content: framework constants, roles, effect templates,
@@ -213,13 +229,21 @@ hands out raw joypad ids, and the game remaps a pad on raw device 0 to `GAMEPAD_
 Getting this wrong cross-maps players — with two same-brand pads one player gets no skill at all —
 so it is the single most bug-prone line in the mod.
 
-**Applying stats.** Temp buffs are written into `RunData.get_player_effects(place)` keyed by the
-game's stat hash (the same mechanism the game's own effects use), and for direct stats also into the
-player's `current_stats` so the change is immediate and visible in the stat panel. The game caches
-computed stats, so the cache is invalidated on every write — skip that and the buff silently does
-nothing. Each buff is tracked in `_active_buffs` with its remaining time and undone exactly once.
-Faction traits use the same path with `caster = -1` and an effectively-infinite duration, so they are
-excluded from the per-player HUD timers and expire only when the wave ends.
+**Applying stats.** Temp buffs go through `TempStats.add_stat(hash, amount, place)`, keyed by the
+game's stat hash (`Keys.generate_hash`; use the game's own names, e.g. `stat_percent_damage` for
+Damage and `xp_gain` for XP Gain). That resets the stat cache and marks the player dirty, so the game
+reloads the player, weapons and structures next physics frame; the mod also calls
+`update_player_stats()` right away. Never write `current_stats` directly: dodge there is a 0–1
+fraction and speed is pixels, which is how the old version ended up with negative dodge. Each buff is
+tracked in `_active_buffs` with its remaining time and undone once. Because the game wipes
+`TempStats` at wave end (by swapping in a new table), each buff remembers the table it wrote to and
+skips the undo when that table has been replaced. Faction traits use the same path with
+`caster = -1` and an effectively-infinite duration, so they are excluded from the per-player HUD
+timers and expire only when the wave ends.
+
+**Enemy slows.** Freeze, slow zones and charm all register with one ledger (`_enemy_mod`): an enemy's
+speed is its base times every active multiplier, and its tint is the newest source's. When the last
+source ends, or the wave ends, it gets its base speed and tint back.
 
 **The HUD** (`skill_hud.gd`) is a pure renderer on its own `CanvasLayer` — it draws whatever state
 snapshot the controller pushes in and contains no game logic. Skill icons are raw mod PNGs, which
@@ -241,12 +265,12 @@ synergies were active this run and each player's character/skill — so another 
 
 The sprite-sheet effects use **Vivid Motion 23 — Universal Status Effects**, a third-party art pack.
 **It is not included in this repository** (`.gitignore` excludes
-`mods-unpacked/tato-Synergies/assets/vfx/`) because this project has no right to redistribute it.
+`mods-unpacked/Redsuperninja-Synergies/assets/vfx/`) because this project has no right to redistribute it.
 
 To build with those effects, obtain the pack yourself and place it at:
 
 ```
-mods-unpacked/tato-Synergies/assets/vfx/Vivid_Motion_23_ Universal_Status_Effects/
+mods-unpacked/Redsuperninja-Synergies/assets/vfx/Vivid_Motion_23_ Universal_Status_Effects/
 ```
 
 keeping the pack's own folder layout — the mod loads
@@ -272,7 +296,9 @@ Bug reports, ideas and pull requests are welcome — see [CONTRIBUTING.md](CONTR
   [LICENSE-ASSETS](LICENSE-ASSETS).
 
 Both licences let you fork, modify and redistribute this mod, commercially or not, as long as you
-credit the author (hhoangg / byptah, with a link back to this repository).
+credit the original author (hhoangg / byptah, with a link back to
+[the original repository](https://github.com/hhoangg/brotato-synergies)). The fork's own changes are
+© Redsuperninja under the same licences.
 
 Not covered by either licence: **Brotato** itself and anything extracted from it (sprites, sounds,
 names, translations) — Brotato is © Blobfish; and the excluded third-party asset pack described
@@ -280,16 +306,17 @@ above, which remains under its own licence.
 
 ---
 
-## Support
+## Support the original author
 
-Made for fun and given away free. If you would like to support development,
+The original mod was made for fun and given away free. If you enjoy it, hhoangg's
 **<https://ko-fi.com/hhoangg>** is open.
 
 ---
 
 ## Credits & disclaimer
 
-Made by **hhoangg** (byptah). Built on [Godot Mod Loader](https://github.com/GodotModding/godot-mod-loader).
+Original mod, skill design and skill icons by **hhoangg** (byptah). Fork maintained by
+**Redsuperninja**. Built on [Godot Mod Loader](https://github.com/GodotModding/godot-mod-loader).
 
 This is an unofficial, unaffiliated fan mod. It is not made by, endorsed by, or associated with
 Blobfish, the developer of Brotato.

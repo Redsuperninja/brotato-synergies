@@ -5,7 +5,7 @@
 # DISPLAYS state the controller pushes in; no game logic here.
 extends Control
 
-const Config = preload("res://mods-unpacked/tato-Synergies/config.gd")
+const Config = preload("res://mods-unpacked/Redsuperninja-Synergies/config.gd")
 
 const FLASH_DECAY := 2.5
 const COL_BG := Color(0.07, 0.07, 0.09, 0.82)
@@ -97,7 +97,7 @@ func _draw() -> void:
 	# Build watermark — TEST builds only (confirms the loaded build at a glance during local testing).
 	# Hidden in published builds so players don't see a version stamp on the char-select screen.
 	if Config.TEST_MODE:
-		_text(Vector2(sz.x - 250, sz.y - 12), "tato-Synergies v" + Config.MOD_VERSION + "  [TEST]", COL_READY)
+		_text(Vector2(sz.x - 250, sz.y - 12), "Redsuperninja-Synergies v" + Config.MOD_VERSION + "  [TEST]", COL_READY)
 	if not _active:
 		return
 	var idx := 0

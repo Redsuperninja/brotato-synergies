@@ -10,36 +10,36 @@
 # get wired next. The routing-test diagnostic/overlay is gone — replaced by lib/skill_hud.gd.
 extends Node
 
-const Config = preload("res://mods-unpacked/tato-Synergies/config.gd")
-const SkillHud = preload("res://mods-unpacked/tato-Synergies/lib/skill_hud.gd")
-const AoeRing = preload("res://mods-unpacked/tato-Synergies/lib/aoe_ring.gd")
-const CharselPanel = preload("res://mods-unpacked/tato-Synergies/lib/charsel_panel.gd")
-const HealAura = preload("res://mods-unpacked/tato-Synergies/lib/heal_aura.gd")
-const Beam = preload("res://mods-unpacked/tato-Synergies/lib/beam.gd")
-const Lightning = preload("res://mods-unpacked/tato-Synergies/lib/lightning.gd")
-const SummonTurret = preload("res://mods-unpacked/tato-Synergies/lib/summon_turret.gd")
-const ModSettings = preload("res://mods-unpacked/tato-Synergies/lib/mod_settings.gd")
-const SettingsPanel = preload("res://mods-unpacked/tato-Synergies/lib/settings_panel.gd")
-const CharacterCodex = preload("res://mods-unpacked/tato-Synergies/lib/character_codex.gd")
+const Config = preload("res://mods-unpacked/Redsuperninja-Synergies/config.gd")
+const SkillHud = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/skill_hud.gd")
+const AoeRing = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/aoe_ring.gd")
+const CharselPanel = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/charsel_panel.gd")
+const HealAura = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/heal_aura.gd")
+const Beam = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/beam.gd")
+const Lightning = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/lightning.gd")
+const SummonTurret = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/summon_turret.gd")
+const ModSettings = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/mod_settings.gd")
+const SettingsPanel = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/settings_panel.gd")
+const CharacterCodex = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/character_codex.gd")
 
 # Procedural VFX (ported from Alexandre-ActiveSkills, pure _draw() Node2D)
-const VfxArcaneRing = preload("res://mods-unpacked/tato-Synergies/lib/vfx/arcane_ring.gd")
-const VfxBuffAura = preload("res://mods-unpacked/tato-Synergies/lib/vfx/buff_aura.gd")
-const VfxBuffRing = preload("res://mods-unpacked/tato-Synergies/lib/vfx/buff_ring.gd")
-const VfxExplosionBurst = preload("res://mods-unpacked/tato-Synergies/lib/vfx/explosion_burst.gd")
-const VfxHitBurst = preload("res://mods-unpacked/tato-Synergies/lib/vfx/hit_burst.gd")
-const VfxNecroticPulse = preload("res://mods-unpacked/tato-Synergies/lib/vfx/necrotic_pulse.gd")
-const VfxStompShockwave = preload("res://mods-unpacked/tato-Synergies/lib/vfx/stomp_shockwave.gd")
-const VfxStoneScatter = preload("res://mods-unpacked/tato-Synergies/lib/vfx/stone_scatter.gd")
-const VfxVortexBurst = preload("res://mods-unpacked/tato-Synergies/lib/vfx/vortex_burst.gd")
-const VfxTracerLine = preload("res://mods-unpacked/tato-Synergies/lib/vfx/tracer_line.gd")
-const VfxPrecisionFlash = preload("res://mods-unpacked/tato-Synergies/lib/vfx/precision_flash.gd")
-const VfxEnergyShockwave = preload("res://mods-unpacked/tato-Synergies/lib/vfx/energy_shockwave.gd")
+const VfxArcaneRing = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/arcane_ring.gd")
+const VfxBuffAura = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/buff_aura.gd")
+const VfxBuffRing = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/buff_ring.gd")
+const VfxExplosionBurst = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/explosion_burst.gd")
+const VfxHitBurst = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/hit_burst.gd")
+const VfxNecroticPulse = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/necrotic_pulse.gd")
+const VfxStompShockwave = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/stomp_shockwave.gd")
+const VfxStoneScatter = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/stone_scatter.gd")
+const VfxVortexBurst = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/vortex_burst.gd")
+const VfxTracerLine = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/tracer_line.gd")
+const VfxPrecisionFlash = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/precision_flash.gd")
+const VfxEnergyShockwave = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/energy_shockwave.gd")
 
 # Sprite-sheet VFX (Vivid Motions 23 status-effect pack — 4x4 64px sheets). One generic player
 # (lib/vfx/sprite_vfx.gd) animates any of them; _spawn_sprite_vfx maps an effect name → its sheet.
-const SpriteVfx = preload("res://mods-unpacked/tato-Synergies/lib/vfx/sprite_vfx.gd")
-const VIVID_DIR := "res://mods-unpacked/tato-Synergies/assets/vfx/Vivid_Motion_23_ Universal_Status_Effects"
+const SpriteVfx = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/vfx/sprite_vfx.gd")
+const VIVID_DIR := "res://mods-unpacked/Redsuperninja-Synergies/assets/vfx/Vivid_Motion_23_ Universal_Status_Effects"
 
 # The game's own character-outline shader (the "Làm Nổi Nhân Vật" setting) — a canvas_item shader that
 # traces the sprite silhouette. We reuse it with white to mark a shielded player. Loaded lazily (game res).
@@ -81,13 +81,12 @@ const SFX_EXPLO := [
 ]
 const ARC_MAX := 4   # chain-lightning: how many nearest enemies the arc jumps to
 
-# Stat keys that live on the Player's current_stats/max_stats Stats object (props confirmed via probe:
-# [health, speed, damage, armor, dodge]) — mutate these fields DIRECTLY, NOT through the effects dict.
-const STATS_FIELDS := {
-	"stat_armor": "armor",
-	"stat_speed": "speed",
-	"stat_damage": "damage",
-	"stat_dodge": "dodge",
+# Older stat names → the key the game actually reads. Weapons read `stat_percent_damage` (weapon_service.gd)
+# and XP reads `xp_gain` (run_data.gd); `stat_damage` / `stat_xp_gain` are not in the game's stat table, so
+# a buff written under them silently did nothing. Config uses the real keys; this keeps old data working.
+const STAT_ALIASES := {
+	"stat_damage": "stat_percent_damage",
+	"stat_xp_gain": "xp_gain",
 }
 
 var _hud = null
@@ -112,6 +111,9 @@ var _diag_t := 0.0   # throttle for the co-op HUD-gating diagnostic (temp)
 var _burn_cache := {}   # kind:String -> loaded BurningData resource (null if missing)
 var _burn_probed := false   # logged the "burning_data settable?" diagnostic once
 var _sfx_idx := 0   # rolling index to vary the explosion SFX clip per cast
+var _enemy_mods := {}   # instance_id -> { node, base_speed, base_mod, speed:{src:mult}, tint:{src:Color} } — see _enemy_mod
+var _next_zone_id := 0   # unique source key per slow zone in _enemy_mods
+var _wave_harvest := {}   # "caster:target" -> Harvesting granted until wave end (non-stacking per caster)
 
 
 func _ready() -> void:
@@ -149,7 +151,9 @@ func _process(delta: float) -> void:
 		_cd.clear()
 		_kb_down = false
 		_btn_down.clear()
-		_active_buffs.clear()   # run torn down — the game rebuilds players_data next run, so just drop them
+		_active_buffs.clear()   # run torn down — the game resets TempStats on the next run, so just drop them
+		_wave_harvest.clear()
+		_enemy_mods.clear()
 		_dashes.clear()
 		_pushed.clear()
 		_frozen.clear()
@@ -321,9 +325,8 @@ func _wave_duration() -> float:
 # ---------------------------------------------------------------------------
 # skill effects — BUFF_SELF / BUFF_PARTY (temp stats that self-undo after N s)
 # ---------------------------------------------------------------------------
-# Mechanism (from the game's own effect source, e.g. stat_gains_modification_effect.gd):
-#   RunData.get_player_effects(player_index)[Keys.generate_hash(stat_key)] += amount   # apply
-#   ...                                                                        -= amount   # unapply
+# Mechanism: the game's own TempStats layer (see _apply_stat), the same one its "while below half HP"
+# items use: TempStats.add_stat(hash, amount, player_index) to apply, the negative amount to undo.
 # "place" == player_index in co-op. "Allies" includes the caster.
 
 func _cast_skill(place: int, lvl: int) -> void:
@@ -341,7 +344,7 @@ func _cast_skill(place: int, lvl: int) -> void:
 	elif template == Config.TMPL_AOE_SELF:
 		_cast_aoe_self(place, skill, tier)
 	elif template == Config.TMPL_SHIELD:
-		_cast_buff(place, skill, tier, template)   # +Armor/+Max HP temp stats (self); _apply_max_hp fills the gained HP
+		_cast_buff(place, skill, tier, template)   # +Armor/+Max HP temp stats (self); update_player_stats fills the gained HP
 	elif template == Config.TMPL_AOE_CURSOR:
 		_cast_aoe_cursor(place, skill, tier)
 	elif template == Config.TMPL_DASH:
@@ -373,24 +376,8 @@ func _cast_skill(place: int, lvl: int) -> void:
 func _cast_buff(place: int, skill, tier: int, template: String) -> void:
 	var dur : float = float(skill.get("duration", 5.0)) + float(skill.get("dur_per_tier", 0.0)) * (tier - 1)
 	var targets := _targets_for(template, place)
-	var scaled := {}
-	var base_stats : Dictionary = skill.get("stats", {})
-	var per_tier : Dictionary = skill.get("stats_per_tier", {})
-	for sk in base_stats.keys():
-		scaled[sk] = int(base_stats[sk]) + int(per_tier.get(sk, 0)) * (tier - 1)
+	var scaled := _scaled_stats(skill, tier)
 	for pi in targets:
-		for sk in scaled.keys():
-			_apply_stat(pi, sk, int(scaled[sk]))
-		_recalc_player(pi)
-		# Force stat panel UI refresh — emit health_updated + stats_changed signals
-		var p = _player_node_for(pi)
-		if p != null:
-			_refresh_health(p, pi)
-			# Also try to emit stats_changed if the player has it
-			for s in p.get_signal_list():
-				if String(s.name) == "stats_changed":
-					p.emit_signal("stats_changed")
-					break
 		var tp = _player_node_for(pi)
 		if tp != null and (tp is Node2D):
 			if not skill.has("vfx"):
@@ -414,7 +401,7 @@ func _cast_buff(place: int, skill, tier: int, template: String) -> void:
 			var o = _apply_shield_outline(pi)
 			if o != null:
 				auras[pi] = o
-	_active_buffs.append({"caster": place, "targets": targets, "stats": scaled, "remaining": dur, "total": dur, "auras": auras})
+	_grant_buff(place, targets, scaled, dur, auras)
 	# SHIELD: a looping Vivid shield bubble clings to each shielded ally for the buff's duration,
 	# then self-fades — a clear "you're protected" read on top of the white silhouette outline.
 	if template == Config.TMPL_SHIELD:
@@ -425,13 +412,6 @@ func _cast_buff(place: int, skill, tier: int, template: String) -> void:
 	print("[Synergies] EFFECT '%s' tmpl=%s tier=%d dur=%.1fs targets=%s stats=%s" % [
 		String(skill.get("name", "?")), template, tier, dur, str(targets), str(scaled)])
 	_apply_aoe_rider(place, skill, tier, null)   # optional damaging burst on cast (cyborg laser / captain volley)
-	# STAT DRAIN ZONE: create a persistent slow zone at caster position for the buff duration.
-	# Any creep walking INTO the zone gets slowed; leaving restores speed.
-	if bool(skill.get("stat_drain", false)):
-		var caster = _player_node_for(place)
-		if caster != null:
-			var drain_radius = float(skill.get("radius", 150.0)) + float(skill.get("radius_per_tier", 0.0)) * (tier - 1)
-			_spawn_drain_zone(caster.global_position, drain_radius, dur)
 	# MATERIAL DROP RIDER: spawn materials around caster (Saver / Buccaneer)
 	if skill.has("material_drop"):
 		_apply_material_drop_rider(place, skill, tier)
@@ -925,23 +905,15 @@ func _freeze_one_enemy(e, remaining: float, tint: Color) -> void:
 	if e == null or not is_instance_valid(e):
 		return
 	var is_boss := _is_boss_enemy(e)
-	var cs = e.get("current_stats")
-	var spd = null
-	if cs != null and ("speed" in cs):
-		spd = int(cs.get("speed"))
-		cs.set("speed", int(spd * BOSS_FREEZE_SPEED) if is_boss else 0)
+	_enemy_mod(e, "freeze", BOSS_FREEZE_SPEED if is_boss else 0.0, tint)
 	if (not is_boss) and ("linear_velocity" in e):
 		e.set("linear_velocity", Vector2.ZERO)
-	var prevmod = null
-	if "modulate" in e:
-		prevmod = e.modulate
-		e.modulate = tint
 	# VFX: normal enemy → Freeze crystal; boss → Slow (it's only hard-slowed). Capped via the window budget.
 	if _freeze_window.has("vfx_n") and int(_freeze_window["vfx_n"]) < 60:
 		var fx := "Slow" if is_boss else "Freeze"
 		_spawn_sprite_vfx(fx, Vector2.ZERO, {"parent": e, "loop": true, "life": remaining, "fps": 13.0, "scale": 0.9})
 		_freeze_window["vfx_n"] = int(_freeze_window["vfx_n"]) + 1
-	_frozen.append({"node": e, "cs": cs, "speed": spd, "modulate": prevmod, "remaining": remaining, "boss": is_boss})
+	_frozen.append({"node": e, "remaining": remaining, "boss": is_boss})
 
 
 # Brotato bosses (mom, gargoyle, colossus, croc, …) carry health_increase_each_wave ≈ 700-750; every
@@ -1037,14 +1009,77 @@ func _tick_frozen(delta: float) -> void:
 
 
 func _restore_frozen(f) -> void:
-	var e = f["node"]
+	_enemy_unmod(f["node"], "freeze")
+
+
+# ENEMY SPEED/TINT LEDGER. Freeze, zone slows and charm all change an enemy's speed and tint, and they
+# overlap. Each used to stash its own "original" and restore it, so restores in the wrong order left
+# enemies frozen or slowed for good. Now every source registers here: speed = base × every active
+# multiplier, tint = the newest active source's, and the enemy gets its base back when the last ends.
+func _enemy_mod(e, src: String, speed_mult, tint) -> void:
 	if e == null or not is_instance_valid(e):
 		return
-	var cs = f["cs"]
-	if cs != null and f["speed"] != null and ("speed" in cs):
-		cs.set("speed", f["speed"])
-	if f["modulate"] != null and ("modulate" in e):
-		e.modulate = f["modulate"]
+	var id = e.get_instance_id()
+	var m = _enemy_mods.get(id, null)
+	if m == null:
+		var cs = e.get("current_stats")
+		m = {
+			"node": e, "cs": cs,
+			"base_speed": int(cs.get("speed")) if cs != null and ("speed" in cs) else null,
+			"base_mod": e.modulate if "modulate" in e else null,
+			"speed": {}, "tint": {},
+		}
+		_enemy_mods[id] = m
+	if speed_mult != null:
+		m["speed"][src] = float(speed_mult)
+	if tint != null:
+		m["tint"].erase(src)   # re-insert so this source becomes the newest tint
+		m["tint"][src] = tint
+	_enemy_refresh(m)
+
+
+func _enemy_unmod(e, src: String) -> void:
+	if e == null or not is_instance_valid(e):
+		return
+	var id = e.get_instance_id()
+	var m = _enemy_mods.get(id, null)
+	if m == null:
+		return
+	m["speed"].erase(src)
+	m["tint"].erase(src)
+	_enemy_refresh(m)
+	if m["speed"].empty() and m["tint"].empty():
+		_enemy_mods.erase(id)
+
+
+func _enemy_refresh(m) -> void:
+	var e = m["node"]
+	if e == null or not is_instance_valid(e):
+		return
+	var cs = m["cs"]
+	if cs != null and m["base_speed"] != null:
+		var mult := 1.0
+		for src in m["speed"].keys():
+			mult *= float(m["speed"][src])
+		cs.set("speed", int(round(float(m["base_speed"]) * mult)))
+	if m["base_mod"] != null:
+		var tints : Array = m["tint"].values()
+		e.modulate = tints[tints.size() - 1] if tints.size() > 0 else m["base_mod"]
+
+
+# Give every modified enemy its base speed and tint back (wave end).
+func _enemy_unmod_all() -> void:
+	for id in _enemy_mods.keys():
+		var m = _enemy_mods[id]
+		m["speed"].clear()
+		m["tint"].clear()
+		_enemy_refresh(m)
+	_enemy_mods.clear()
+
+
+func _new_zone_src() -> String:
+	_next_zone_id += 1
+	return "zone%d" % _next_zone_id
 
 
 # CURSE CLOUD — purple poison zone: slow enemies + DoT scaled by player's curse count.
@@ -1058,14 +1093,7 @@ func _cast_curse_cloud(place: int, skill, tier: int) -> void:
 	var caster = _player_node_for(place)
 	if caster == null:
 		return
-	# Read player's curse count from effects dict (Lời Nguyện stat)
-	var curse_count := 0
-	var rd = _run_data()
-	if rd != null:
-		var effects = rd.get_player_effects(place)
-		if typeof(effects) == TYPE_DICTIONARY:
-			var curse_key = _stat_hash("stat_curse")
-			curse_count = int(effects.get(curse_key, 0))
+	var curse_count := int(max(0.0, _player_stat(place, "stat_curse")))   # the player's Curse stat
 	# DoT/tick = max( wave-scaled base floor , curse_count * curse_dmg_percent ). The floor keeps the cloud
 	# useful on low/zero-curse builds AND grows with the wave; a curse-stacking build overtakes it (its
 	# whole identity), so the skill rewards the build without being dead weight otherwise.
@@ -1092,6 +1120,8 @@ func _cast_curse_cloud(place: int, skill, tier: int) -> void:
 		"tick_timer": 0.0,
 		"slow_percent": slow_pct,   # key MUST match what _tick_drained reads (was "slow_pct" → ignored)
 		"slowed": {},
+		"src": _new_zone_src(),
+		"place": place,   # the DoT is credited to the caster, not always player 1
 	}
 	_drain_zones.append(zone)
 	print("[Synergies] CURSE CLOUD: pos=%s r=%.0f dur=%.1fs dmg/tick=%d (floor=%d curse=%d) curseStat=%d slow=%.0f%%" % [
@@ -1129,7 +1159,7 @@ func _cast_heal_zone(place: int, skill, tier: int) -> void:
 	_drain_zones.append({
 		"pos": dest, "radius": radius, "remaining": dur,
 		"heal_percent": heal_pct, "tick_interval": tick_interval, "tick_timer": 0.0,
-		"slow_percent": slow_pct, "slowed": {}, "aura": aura,
+		"slow_percent": slow_pct, "slowed": {}, "aura": aura, "src": _new_zone_src(),
 	})
 	print("[Synergies] HEAL ZONE: -> ally pi=%d pos=%s r=%.0f dur=%.1fs heal=%.1f%%/s slow=%.0f%%" % [
 		target_pi, str(dest), radius, dur, heal_pct * 100, slow_pct * 100])
@@ -1156,23 +1186,6 @@ func _lowest_hp_ally(caster_place: int) -> int:
 			best_frac = frac
 			best_pi = pi
 	return best_pi
-
-
-# STAT DRAIN ZONE — create a persistent slow zone at a position.
-# Any enemy INSIDE the zone gets slowed; leaving restores speed.
-func _spawn_drain_zone(pos: Vector2, radius: float, dur: float) -> void:
-	# Spawn visual ring (reuse AoeRing with blue color, longer life)
-	var ring = AoeRing.new()
-	var host = _host_node()
-	if host != null:
-		host.add_child(ring)
-		ring.global_position = pos
-		ring.setup(radius, Color(0.3, 0.6, 1.0, 0.6), dur)
-	# (Slow shows per-enemy in _apply_zone_slow, not as a center marker — the blue ring is the area.)
-	# Track the zone
-	var zone = {"pos": pos, "radius": radius, "remaining": dur, "slowed": {}}
-	_drain_zones.append(zone)
-	print("[Synergies] DRAIN ZONE: pos=%s r=%.0f dur=%.1fs" % [str(pos), radius, dur])
 
 
 # ZONE tick — slow enemies inside + DoT for curse_cloud zones. The heavy work (a full _enemies_near
@@ -1218,11 +1231,11 @@ func _tick_drained(delta: float) -> void:
 			inside_set[e] = true
 			# DoT (curse_cloud only): damage via the real hitbox pipeline.
 			if is_curse:
-				_spawn_aoe_hitbox(e.global_position, int(zone["dmg"]), 10.0, _player_node_for(0), Color(0.5, 0.2, 0.7), null, true)
+				_spawn_aoe_hitbox(e.global_position, int(zone["dmg"]), 10.0, _player_node_for(int(zone.get("place", 0))), Color(0.5, 0.2, 0.7), null, true)
 			# Slow on entry (skip if already slowed by this zone).
 			if slowed.has(e):
 				continue
-			_apply_zone_slow(e, slowed, slow_pct, is_curse, false)
+			_apply_zone_slow(e, slowed, slow_pct, is_curse, false, String(zone["src"]))
 		# Restore enemies that LEFT the zone (or died). STICKY ones (knocked-back) stay slowed even when
 		# outside — they only restore when the zone expires.
 		var to_remove = []
@@ -1240,25 +1253,16 @@ func _tick_drained(delta: float) -> void:
 
 # Apply a zone's slow to one enemy and record the pre-slow data into `slowed` (so it can be restored).
 # `sticky` = stay slowed even after leaving the zone (used for knocked-back enemies). No-op if already in.
-func _apply_zone_slow(e, slowed, slow_pct: float, is_curse: bool, sticky: bool) -> void:
+func _apply_zone_slow(e, slowed, slow_pct: float, is_curse: bool, sticky: bool, src: String) -> void:
 	if e == null or not is_instance_valid(e) or slowed.has(e):
 		return
-	var cs = e.get("current_stats")
-	var orig_speed = null
-	if cs != null and "speed" in cs:
-		orig_speed = int(cs.get("speed"))
-		if orig_speed > 0:
-			cs.set("speed", int(orig_speed * (1.0 - slow_pct)))
-	var prevmod = null
-	if "modulate" in e:
-		prevmod = e.modulate
-		e.modulate = Color(0.6, 0.2, 0.8) if is_curse else Color(0.55, 0.85, 1.0)
+	_enemy_mod(e, src, 1.0 - slow_pct, Color(0.6, 0.2, 0.8) if is_curse else Color(0.55, 0.85, 1.0))
 	# A Slow snail clinging to each slowed enemy (Doctor's field 40%, Diver, drain zones). Skipped inside
 	# a curse cloud — those enemies already read as cursed (purple tint + Curse sigil), no need to stack.
 	var vfx = null
 	if (e is Node2D) and not is_curse:
 		vfx = _spawn_sprite_vfx("Slow", Vector2.ZERO, {"parent": e, "loop": true, "fps": 11.0, "scale": 0.7})
-	slowed[e] = {"cs": cs, "speed": orig_speed, "modulate": prevmod, "sticky": sticky, "vfx": vfx}
+	slowed[e] = {"src": src, "sticky": sticky, "vfx": vfx}
 
 
 # Heal every co-op ally standing within `radius` of `pos` by `pct` of their MAX HP (one pulse). Clamped
@@ -1285,13 +1289,7 @@ func _restore_slowed_enemy(e, data) -> void:
 	var vfx = data.get("vfx", null)
 	if vfx != null and is_instance_valid(vfx):
 		vfx.queue_free()
-	if e == null or not is_instance_valid(e):
-		return
-	var cs = data["cs"]
-	if cs != null and ("speed" in cs) and data["speed"] != null:
-		cs.set("speed", data["speed"])
-	if data["modulate"] != null and ("modulate" in e):
-		e.modulate = data["modulate"]
+	_enemy_unmod(e, String(data.get("src", "")))
 
 
 # Restore every enemy slowed by a zone, free any held aura, then drop all zones (heal/curse_cloud/drain).
@@ -1324,6 +1322,7 @@ func _clear_wave_effects() -> void:
 	_scouts.clear()
 	_greed.clear()   # a Midas window never carries into the shop / next wave
 	_taunt.clear()   # a taunt drag never carries into the shop / next wave
+	_enemy_unmod_all()   # anything still slowed/charmed/tinted gets its base back
 
 
 # GREED (Jack "Jackpot") — for `duration`s, ×`mult` EVERY material the whole team picks up. Each frame
@@ -1383,13 +1382,18 @@ func _player_gold(place: int) -> int:
 	return int(pd.gold)
 
 
-# Grant `amount` materials to player `place` by writing players_data[place].gold (the game stores it as
-# a plain property; the HUD refreshes on the next natural pickup, which happens constantly mid-window).
+# Grant `amount` materials to player `place`. Prefer RunData.add_gold (the game's own path: emits
+# gold_changed so the HUD updates); fall back to writing players_data[place].gold directly.
 func _add_player_gold(place: int, amount: int) -> void:
 	if amount <= 0:
 		return
 	var rd = _run_data()
-	if rd == null or not ("players_data" in rd):
+	if rd == null:
+		return
+	if rd.has_method("add_gold"):
+		rd.add_gold(amount, place)
+		return
+	if not ("players_data" in rd):
 		return
 	var arr = rd.players_data
 	if typeof(arr) != TYPE_ARRAY or arr.size() <= place:
@@ -1466,39 +1470,26 @@ func _apply_charm_rider(place: int, skill, tier: int) -> void:
 func _charm_enemy(e, dur: float) -> void:
 	if e == null or not is_instance_valid(e):
 		return
-	# Store original behavior state
-	var prev_modulate = e.modulate if "modulate" in e else null
-	# Apply pink tint (charm visual)
-	if "modulate" in e:
-		e.modulate = Color(1.0, 0.6, 0.8, 1.0)
+	# Half speed + pink tint, through the shared ledger so it can't fight a freeze or slow zone.
+	_enemy_mod(e, "charm", 0.5, Color(1.0, 0.6, 0.8, 1.0))
 	# Spawn heart VFX
 	if e is Node2D:
 		_spawn_vfx(VFX_BUFF, e.global_position)
 		# Charm hearts cling to the enemy for the charm window as it wanders off.
 		_spawn_sprite_vfx("Charm", Vector2.ZERO, {"parent": e, "loop": true, "life": dur, "fps": 12.0, "scale": 0.85})
-	# Disable enemy's ability to attack (set speed to wandering mode)
-	var cs = e.get("current_stats")
-	var orig_speed = null
-	if cs != null and "speed" in cs:
-		orig_speed = cs.get("speed")
-		cs.set("speed", cs.get("speed") * 0.5)  # slow down but don't stop
 	# Set random wandering velocity
 	if "linear_velocity" in e:
 		var wander_dir = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized()
 		e.set("linear_velocity", wander_dir * 80.0)
 	# Timer to restore
 	var t = get_tree().create_timer(dur)
-	t.connect("timeout", self, "_restore_charmed", [e, prev_modulate, orig_speed])
+	t.connect("timeout", self, "_restore_charmed", [e])
 
 
-func _restore_charmed(e, prev_modulate, orig_speed) -> void:
+func _restore_charmed(e) -> void:
 	if e == null or not is_instance_valid(e):
 		return
-	if "modulate" in e and prev_modulate != null:
-		e.modulate = prev_modulate
-	var cs = e.get("current_stats")
-	if cs != null and orig_speed != null and "speed" in cs:
-		cs.set("speed", orig_speed)
+	_enemy_unmod(e, "charm")
 	if "linear_velocity" in e:
 		e.set("linear_velocity", Vector2.ZERO)
 
@@ -1511,31 +1502,11 @@ func _apply_material_drop_rider(place: int, skill, tier: int) -> void:
 	if caster == null:
 		return
 	var origin = caster.global_position
-	# Find the RunData to add materials
-	var run_data = null
-	if get_tree().current_scene and get_tree().current_scene.has_method("get"):
-		run_data = get_tree().current_scene.get("run_data")
-	# Also try via GameRunManager
-	if run_data == null:
-		var grm = get_tree().root.get_node_or_null("GameRunManager")
-		if grm != null:
-			run_data = grm.get("run_data")
-	if run_data == null:
-		print("[Synergies] MATERIAL DROP: no RunData found, skipping")
-		return
-	# Spawn material entities in a circle around caster
-	var angle_step = TAU / max(count, 1)
-	var spawn_radius = 60.0
-	for i in range(count):
-		var ang : float = angle_step * float(i) + rand_range(-0.3, 0.3)
-		var offset = Vector2(cos(ang), sin(ang)) * spawn_radius
-		var pos = origin + offset
-		# Add material to RunData (the game handles the pickup entity display)
-		if run_data.has_method("add_materials"):
-			run_data.add_materials(1)
-	# Visual: spawn gold sparkle VFX at caster position
+	# Straight into the caster's materials through the game's own RunData.add_gold (updates the HUD).
+	# The old version looked for a `run_data` / `add_materials` that Brotato doesn't have, so it never paid.
+	_add_player_gold(place, count)
 	_spawn_vfx(VFX_BUFF, origin)
-	print("[Synergies] MATERIAL DROP: spawned %d materials at %s" % [count, str(origin)])
+	print("[Synergies] MATERIAL DROP: +%d materials to place=%d" % [count, place])
 
 
 # STANDING STILL RIDER (Streamer) — if the caster was standing still for `standing_still_window`
@@ -1681,6 +1652,7 @@ func _apply_knockback_rider(place: int, skill, tier: int, impact_pos) -> void:
 	# Build the slow zone's tracked-enemy dict up front so we can STICKY-SLOW each shoved enemy at cast
 	# time — the push throws them OUT of the radius, so a tick-based "slow while inside" would miss them.
 	var slowed := {}
+	var src := _new_zone_src()
 	var n := 0
 	for e in _enemies_near(center, radius):
 		if e == null or not is_instance_valid(e) or not (e is Node2D):
@@ -1692,7 +1664,7 @@ func _apply_knockback_rider(place: int, skill, tier: int, impact_pos) -> void:
 		var push : float = amount * (1.0 - 0.4 * clamp(dist / radius, 0.0, 1.0))
 		_pushed.append({"node": e, "from": e.global_position, "to": e.global_position + dir * push, "t": 0.0, "dur": push_dur})
 		if slow_dur > 0.0:
-			_apply_zone_slow(e, slowed, slow_pct, false, true)   # sticky → stays slowed even when pushed outside
+			_apply_zone_slow(e, slowed, slow_pct, false, true, src)   # sticky → stays slowed even when pushed outside
 		n += 1
 	print("[Synergies] KNOCKBACK '%s' tier=%d amount=%.0f r=%.0f at=%s pushed=%d" % [
 		String(skill.get("name", "?")), tier, amount, radius, str(center), n])
@@ -1707,7 +1679,7 @@ func _apply_knockback_rider(place: int, skill, tier: int, impact_pos) -> void:
 	# Persisting slow zone at the landing point: the shoved enemies (sticky) stay slowed for the duration,
 	# AND any enemy that later walks into the radius is slowed too (handled by _tick_drained).
 	if slow_dur > 0.0:
-		_drain_zones.append({"pos": center, "radius": radius, "remaining": slow_dur, "slow_percent": slow_pct, "tick_interval": 0.2, "tick_timer": 0.0, "slowed": slowed})
+		_drain_zones.append({"pos": center, "radius": radius, "remaining": slow_dur, "slow_percent": slow_pct, "tick_interval": 0.2, "tick_timer": 0.0, "slowed": slowed, "src": src})
 	_play_explosion_sfx()
 
 
@@ -1843,17 +1815,50 @@ func _color_from(v, fallback: Color) -> Color:
 	return fallback
 
 
-# Apply a temp stat buff to targets and track it for timed/wave-end expiry (shared by DASH; no outline).
-func _grant_buff(place: int, targets: Array, scaled: Dictionary, dur: float) -> void:
+# Apply a temp stat buff to targets and track it for timed/wave-end expiry. Every skill buff, rider and
+# faction trait goes through here. `gens` remembers which TempStats table each target's stats went into,
+# so _undo_buff can tell whether the game already wiped them (see _stat_generation).
+func _grant_buff(place: int, targets: Array, scaled: Dictionary, dur: float, auras: Dictionary = {}) -> void:
+	var timed := _grant_wave_harvest(place, targets, scaled)
+	var gens := {}
 	for pi in targets:
-		var needs_recalc = false
-		for sk in scaled.keys():
-			_apply_stat(pi, sk, int(scaled[sk]))
-			if not _is_direct_stat(sk):
-				needs_recalc = true
-		if needs_recalc:
-			_recalc_player(pi)
-	_active_buffs.append({"caster": place, "targets": targets, "stats": scaled, "remaining": dur, "total": dur, "auras": {}})
+		for sk in timed.keys():
+			_apply_stat(pi, sk, int(timed[sk]))
+		gens[pi] = _stat_generation(pi)
+		_sync_player(pi)
+	if timed.empty() and auras.empty():
+		return
+	_active_buffs.append({"caster": place, "targets": targets, "stats": timed, "gens": gens, "remaining": dur, "total": dur, "auras": auras})
+
+
+# Undo exactly what a buff added, unless the game already reset TempStats (wave end / new run) — then
+# the stats are gone and subtracting again would push them negative.
+func _undo_buff(b) -> void:
+	for pi in b.targets:
+		if _stat_generation(pi) != b.gens.get(pi, {}):   # Dictionary vs Dictionary only: 3.x errors on Dictionary vs null
+			continue
+		for sk in b.stats.keys():
+			_apply_stat(pi, sk, -int(b.stats[sk]))
+		_sync_player(pi)
+	_clear_buff_auras(b)
+
+
+# Harvesting only pays out when the wave ends (main.gd manage_harvesting reads it then, before it resets
+# TempStats), so a 4s +Harvesting buff did nothing. Skill harvesting therefore lasts until the wave ends
+# instead, and recasting only tops it up to the new value (it doesn't stack per caster). Returns the
+# remaining stats, which keep the buff's normal timer.
+func _grant_wave_harvest(caster: int, targets: Array, scaled: Dictionary) -> Dictionary:
+	var amount := int(scaled.get("stat_harvesting", 0))
+	if amount <= 0:
+		return scaled
+	for pi in targets:
+		var k := "%d:%d" % [caster, pi]
+		var had := int(_wave_harvest.get(k, 0))
+		if amount > had and _apply_stat(pi, "stat_harvesting", amount - had):
+			_wave_harvest[k] = amount
+	var rest := scaled.duplicate()
+	rest.erase("stat_harvesting")
+	return rest
 
 
 # Put a WHITE silhouette outline on player `pi`'s sprite (same shader as the game's character-outline
@@ -1932,7 +1937,7 @@ func _clear_buff_auras(b) -> void:
 # heal() updates health data but doesn't redraw the life bar, so we refresh it explicitly after.
 func _cast_heal(place: int, skill, tier: int) -> void:
 	var amount = int(round(float(int(skill.get("heal", 15)) + int(skill.get("heal_per_tier", 0)) * (tier - 1)) * _wave_heal_mult()))
-	var targets = _places()
+	var targets = [place] if bool(skill.get("heal_self", false)) else _places()
 	# If the skill has a `radius`, it's an AURA heal: only allies inside the radius of the caster are
 	# healed, and we show the soft green aura ring (the Doc Moth aura sprite) to mark the area.
 	var radius : float = float(skill.get("radius", 0.0)) + float(skill.get("radius_per_tier", 0.0)) * (tier - 1)
@@ -2011,12 +2016,14 @@ func _aoe_damage(skill, tier: int, caster) -> int:
 # a tier-growing share. See Config.SKILL_* constants. Used by every AOE / rider / summon damage value.
 func _scaled_damage(base: int, tier: int, caster) -> int:
 	var dmg : float = float(base) * _wave_dmg_mult()
-	if caster != null:
-		var cs = caster.get("current_stats")
-		if cs != null:
-			var ck : float = Config.SKILL_CASTER_DMG_BASE + Config.SKILL_CASTER_DMG_PER_TIER * float(tier - 1)
-			dmg += float(int(cs.get("damage"))) * ck
-	return int(round(dmg))
+	if caster != null and ("player_index" in caster):
+		# The caster's Damage % (stat_percent_damage, what weapons use), scaled by a tier-growing share and
+		# floored so a negative-Damage build still hits. (This used to read current_stats.damage, a base
+		# Stats field that is not the player's Damage stat, so the caster bonus never applied.)
+		var ck : float = Config.SKILL_CASTER_DMG_BASE + Config.SKILL_CASTER_DMG_PER_TIER * float(tier - 1)
+		var pct : float = _player_stat(int(caster.player_index), "stat_percent_damage")
+		dmg *= max(Config.SKILL_MIN_DMG_MULT, 1.0 + pct / 100.0 * ck)
+	return int(max(1.0, round(dmg)))
 
 
 func _wave_dmg_mult() -> float:
@@ -2118,17 +2125,6 @@ func _cast_aoe_self(place: int, skill, tier: int) -> void:
 		_spawn_lightning_chain(caster, origin, radius, _color_from(skill.get("arc_color", null), Color(0.5, 0.8, 1.0)))
 		_spawn_sprite_vfx("Shock", origin, {"fps": 24.0, "scale": max(1.0, radius / 90.0)})
 	_apply_skill_riders(place, skill, tier)
-	# STAT DRAIN: reduce enemy speed in range by 50% for the buff duration
-	if bool(skill.get("stat_drain", false)):
-		var dur : float = float(skill.get("duration", 4.0)) + float(skill.get("dur_per_tier", 0.0)) * (tier - 1)
-		for e in enemies:
-			if e == null or not is_instance_valid(e):
-				continue
-			var cs = e.get("current_stats")
-			if cs != null and "speed" in cs:
-				var orig_speed = cs.get("speed")
-				cs.set("speed", int(orig_speed * 0.5))
-				_frozen.append({"node": e, "cs": cs, "speed": orig_speed, "modulate": null, "remaining": dur})
 
 
 # Apply damage to one enemy via the unit's take_damage (a GDScript method → a bad call logs an error,
@@ -2237,34 +2233,20 @@ func _tick_buffs(delta: float) -> void:
 		var b = _active_buffs[i]
 		b.remaining -= delta
 		if b.remaining <= 0.0:
-			for pi in b.targets:
-				var needs_recalc = false
-				for sk in b.stats.keys():
-					_apply_stat(pi, sk, -int(b.stats[sk]))   # undo exactly what this buff added
-					if not _is_direct_stat(sk):
-						needs_recalc = true
-				if needs_recalc:
-					_recalc_player(pi)
-			_clear_buff_auras(b)
+			_undo_buff(b)
 			print("[Synergies] EFFECT expired targets=%s stats=%s" % [str(b.targets), str(b.stats)])
 			_active_buffs.remove(i)
 		i -= 1
 
 
-# Undo every active buff immediately (used at wave end). Same math as a timed expiry.
+# Undo every active buff immediately (used at wave end). Same math as a timed expiry; _undo_buff skips
+# whatever the game's own end-of-wave TempStats.reset() already removed.
 func _expire_all_buffs(reason: String) -> void:
+	_wave_harvest.clear()
 	if _active_buffs.empty():
 		return
 	for b in _active_buffs:
-		for pi in b.targets:
-			var needs_recalc = false
-			for sk in b.stats.keys():
-				_apply_stat(pi, sk, -int(b.stats[sk]))
-				if not _is_direct_stat(sk):
-					needs_recalc = true
-			if needs_recalc:
-				_recalc_player(pi)
-		_clear_buff_auras(b)
+		_undo_buff(b)
 	print("[Synergies] %s — cleared %d active buff(s)" % [reason, _active_buffs.size()])
 	_active_buffs.clear()
 
@@ -2281,9 +2263,13 @@ func _apply_affinities() -> void:
 	var active = _active_affinities()
 	if active.empty():
 		return
-	var places = _places()
+	# Sum every active faction first, so a buff and a nerf on the same stat net out before the nerf is
+	# clamped. Clamping is per player because each player's stats differ.
+	var total := {}
 	for aff in active:
-		_grant_buff(-1, places, aff["stats"], 1.0e9)   # caster=-1 → excluded from per-player HUD timers
+		_merge_stats(total, aff["stats"])
+	for pi in _places():
+		_grant_buff(-1, [pi], _clamp_nerfs(pi, total), 1.0e9)   # caster=-1 → excluded from per-player HUD timers
 	print("[Synergies] AFFINITIES active=%d: %s" % [active.size(), _affinity_summary(active)])
 	if _hud != null and _hud.has_method("update_affinities"):
 		_hud.update_affinities(active)
@@ -2344,88 +2330,84 @@ func _affinity_summary(active: Array) -> String:
 	return PoolStringArray(parts).join(" | ")
 
 
-# Add `amount` (may be negative) to one player's stat.
-# ALL stats are written to the effects dict (which update_player_stats() reads from).
-# Direct stats (armor/speed/damage/dodge) are ALSO written to current_stats for immediate effect.
+# Cap each negative (nerf) entry so it never pushes the player's stat below its floor
+# (Config.AFFINITY_NERF_FLOOR, default 0). A faction nerf can only take away what the player has; it
+# never creates a negative stat. Buffs pass through unchanged.
+func _clamp_nerfs(pi: int, stats: Dictionary) -> Dictionary:
+	var out := {}
+	for sk in stats.keys():
+		var amt := int(stats[sk])
+		if amt < 0:
+			var floor_v := float(Config.AFFINITY_NERF_FLOOR.get(_real_stat_key(sk), 0))
+			var room := int(max(0.0, floor(_player_stat(pi, sk) - floor_v)))
+			amt = -int(min(-amt, room))
+		if amt != 0:
+			out[sk] = amt
+	return out
+
+
+# Add `amount` (may be negative) of one stat to player `pi` for the current wave, through the game's own
+# TempStats layer (singletons/temp_stats.gd), the same path its "while below half HP" items use:
+# add_stat resets the stat cache and flags the player dirty, so RunData reloads the player, its weapons
+# and its structures next physics frame, and Utils.get_stat (stat panel, damage, harvesting) includes it.
+# The game resets TempStats at wave start and wave end, so nothing we add can leak into the shop or save.
+# (The old path wrote the persistent effects dict AND raw numbers into current_stats. Dodge there is a
+# 0-1 fraction and speed is pixels, so undoing +10 dodge after a recalc left dodge at about -9.)
 func _apply_stat(pi: int, stat_key: String, amount: int) -> bool:
-	if stat_key == "stat_max_hp":
-		return _apply_max_hp(pi, amount)
-	# Always write to effects dict so update_player_stats() picks it up
-	var rd = _run_data()
-	if rd == null:
+	if amount == 0:
 		return false
-	var effects = rd.get_player_effects(pi)
-	if typeof(effects) != TYPE_DICTIONARY:
+	var ts = _temp_stats()
+	if ts == null:
 		return false
-	var key = _stat_hash(stat_key)
-	var before = effects[key] if effects.has(key) else 0
-	effects[key] = before + amount
-	_invalidate_stat_cache(pi)   # else the game keeps returning the STALE cached stat (the affinity bug)
-	# For direct stats, also mutate current_stats immediately
-	if STATS_FIELDS.has(stat_key):
-		_apply_stats_field(pi, String(STATS_FIELDS[stat_key]), amount)
-	print("[Synergies][stat] pi=%d %s effects %s -> %s (%+d)" % [pi, stat_key, str(before), str(effects[key]), amount])
+	var key = _stat_hash(_real_stat_key(stat_key))
+	var tables = ts.get("player_stats")
+	if typeof(tables) != TYPE_ARRAY or pi < 0 or pi >= tables.size() or not tables[pi].has(key):
+		print("[Synergies][stat] '%s' is not a stat the game tracks, skipped" % stat_key)
+		return false
+	ts.add_stat(key, amount, pi)
+	print("[Synergies][stat] pi=%d %s %+d" % [pi, stat_key, amount])
 	return true
 
 
-# Direct mutation of a current_stats/max_stats field (armor/speed/damage/dodge). Visible in the panel.
-func _apply_stats_field(pi: int, field: String, amount: int) -> bool:
-	var p = _player_node_for(pi)
-	if p == null:
-		return false
-	var cs = p.get("current_stats")
-	var ms = p.get("max_stats")
-	var before = cs.get(field) if cs != null else null
-	if cs != null:
-		cs.set(field, int(cs.get(field)) + amount)
-	if ms != null:
-		ms.set(field, int(ms.get(field)) + amount)
-	var after = cs.get(field) if cs != null else null
-	print("[Synergies][stat] pi=%d %s(field) %s -> %s (%+d)" % [pi, field, str(before), str(after), amount])
-	return true
+# The TempStats table for player `pi`. TempStats.reset() swaps in a NEW Dictionary, and Godot 3 compares
+# dictionaries by reference, so a changed table means the game already wiped everything we added.
+func _stat_generation(pi: int) -> Dictionary:
+	var ts = _temp_stats()
+	if ts != null:
+		var tables = ts.get("player_stats")
+		if typeof(tables) == TYPE_ARRAY and pi >= 0 and pi < tables.size():
+			return tables[pi]
+	return {}
 
 
-# Max HP is special. The CAP (max_stats.health) must go through the EFFECTS DICT, not a direct write:
-# update_player_stats() rebuilds max_stats from the effects dict (e.g. when another stat in the same
-# bundle triggers a recalc), so a directly-set ms.health gets WIPED back to base — leaving current HP
-# stranded above the cap (the "24/12" bug) and going NEGATIVE on the symmetric undo. So: write the cap
-# delta to the effects dict + recalc (rebuilds the cap correctly), then adjust CURRENT health —
-# asymmetrically: fill the gained HP on a buff (+), but on expiry (−) only CLAMP under the new cap
-# (never subtract, or a damaged player ends the wave at negative/0 HP).
-func _apply_max_hp(pi: int, amount: int) -> bool:
-	var rd = _run_data()
-	if rd != null:
-		var effects = rd.get_player_effects(pi)
-		if typeof(effects) == TYPE_DICTIONARY:
-			var key = _stat_hash("stat_max_hp")
-			effects[key] = int(effects.get(key, 0)) + amount
-	_invalidate_stat_cache(pi)   # so get_player_max_health() reads our delta, not the stale cap cache
-	_recalc_player(pi)   # rebuild max_stats.health from the effects dict (cap now base + our delta)
+# Recompute player `pi` now (speed/armor/dodge/max HP) rather than waiting for the game's next reload,
+# and keep current HP under a lowered max. update_player_stats() itself adds HP when max HP grows.
+func _sync_player(pi: int) -> void:
 	var p = _player_node_for(pi)
-	if p == null:
-		return false
+	if p == null or p.get("dead") == true:
+		return
+	p.call("update_player_stats")
 	var cs = p.get("current_stats")
 	var ms = p.get("max_stats")
-	if cs != null and ms != null:
-		var maxh := int(ms.get("health"))
-		var curh := int(cs.get("health"))
-		if amount > 0:
-			cs.set("health", int(min(curh + amount, maxh)))   # fill the gained HP, capped
-		elif curh > maxh:
-			cs.set("health", maxh)                            # cap lowered → clamp current under it
+	if cs != null and ms != null and int(cs.get("health")) > int(ms.get("health")):
+		cs.set("health", ms.get("health"))
 	_refresh_health(p, pi)
-	var mh = ms.get("health") if ms != null else null
-	var ch = cs.get("health") if cs != null else null
-	print("[Synergies][stat] pi=%d stat_max_hp -> ms.health=%s cs.health=%s (%+d via effects)" % [pi, str(mh), str(ch), amount])
-	return true
 
 
-# True for stats that mutate the Stats object directly (must NOT be followed by update_player_stats()).
-func _is_direct_stat(stat_key: String) -> bool:
-	return stat_key == "stat_max_hp" or STATS_FIELDS.has(stat_key)
+# A player's full current value of a stat (base + items + TempStats + linked stats), as the game sees it.
+func _player_stat(pi: int, stat_key: String) -> float:
+	var u = _utils_singleton()
+	var key = _stat_hash(_real_stat_key(stat_key))
+	if u == null or typeof(key) != TYPE_INT:
+		return 0.0
+	return float(u.get_stat(key, pi))
 
 
-# Map a stat key string to the hash the game uses for its effects dict (falls back to the string).
+func _real_stat_key(stat_key: String) -> String:
+	return String(STAT_ALIASES.get(stat_key, stat_key))
+
+
+# Map a stat key string to the hash the game uses for its stat tables (falls back to the string).
 func _stat_hash(stat_key: String):
 	var keys = _keys_singleton()
 	if keys != null and keys.has_method("generate_hash"):
@@ -2433,19 +2415,8 @@ func _stat_hash(stat_key: String):
 	return stat_key
 
 
-# The Player caches its usable stats in `current_stats` (read by the stat panel via get_stats_value);
-# mutating the effects dict alone won't refresh them. `update_player_stats()` (confirmed via the
-# v0.5.6 live dump) recomputes current_stats from the effects dict — call it after every apply/undo.
-func _recalc_player(pi: int) -> void:
-	var p = _player_node_for(pi)
-	if p == null:
-		print("[Synergies][recalc] pi=%d player node not found" % pi)
-		return
-	for m in ["update_player_stats", "update_stats"]:
-		if p.has_method(m):
-			p.call(m)
-			print("[Synergies][recalc] pi=%d via player.%s()" % [pi, m])
-			return
+func _temp_stats():
+	return get_tree().root.get_node_or_null("TempStats")
 
 
 func _slug_for(place: int) -> String:
@@ -2462,17 +2433,6 @@ func _keys_singleton():
 
 func _utils_singleton():
 	return get_tree().root.get_node_or_null("Utils")
-
-
-# The game caches per-player stat reads in Utils._stat_caches (utils.gd get_stat). A raw effects-dict
-# write NEVER invalidates it, so non-direct stats (crit/attack_speed/elemental_damage/luck/engineering/
-# lifesteal/hp_regeneration/harvesting/range/xp_gain…) keep returning the stale cached value — only the
-# 4 stats we ALSO write straight into current_stats appeared to apply. The game's own TempStats calls
-# Utils.reset_stat_cache() after EVERY stat change; mirror that here so our buffs actually take effect.
-func _invalidate_stat_cache(pi: int) -> void:
-	var u = _utils_singleton()
-	if u != null and u.has_method("reset_stat_cache"):
-		u.reset_stat_cache(pi)
 
 
 # Find the live player unit for a co-op place (== player_index) under the Entities node.

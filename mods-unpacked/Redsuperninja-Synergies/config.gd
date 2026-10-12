@@ -1,15 +1,15 @@
-# Config for the Co-op Synergies mod (tato-Synergies).
+# Config for the Co-op Synergies mod (Redsuperninja-Synergies).
 # Framework constants for the per-character active-skill system + faction affinities.
 extends Reference
 
-const MOD_ID := "tato-Synergies"
+const MOD_ID := "Redsuperninja-Synergies"
 
 # Shown in the load log so you can confirm the installed build at a glance.
 # KEEP IN SYNC with manifest.json "version_number".
-const MOD_VERSION := "0.39.14"
+const MOD_VERSION := "0.40.0"
 
 # ---- Skill icons (one per character slug; generated, masked to a transparent circle) ----
-const SKILLS_ICON_DIR := "res://mods-unpacked/tato-Synergies/assets/skills"
+const SKILLS_ICON_DIR := "res://mods-unpacked/Redsuperninja-Synergies/assets/skills"
 
 # ---- Active-skill framework rules (see docs/superpowers/specs co-op-depth design) ----
 # ---- TEST MODE — lower the gates so we can iterate without grinding a real run ----
@@ -44,11 +44,13 @@ const TEST_BUFF_SECONDS := 20.0
 # ---- Endless scaling — keep damage/heal skills relevant when enemies get tanky in late/endless waves ----
 # A skill's fixed (tier-capped) numbers go stale by wave 20+. Two scalers, tuned "just enough" (not OP):
 #  - base damage/heal is multiplied by a WAVE factor (a floor that grows every wave, for every build),
-#  - PLUS a tier-growing share of the caster's Damage stat is added (rewards an invested build).
-# dmg = round(base_tier * (1 + WAVE_DMG_GROWTH*(wave-1))  +  casterDamage * (CASTER_BASE + CASTER_PER_TIER*(tier-1)))
+#  - TIMES the caster's Damage % (the stat weapons use), with a tier-growing share (rewards an invested build).
+# dmg = max(1, round(base_tier * (1 + WAVE_DMG_GROWTH*(wave-1))
+#                    * max(MIN_DMG_MULT, 1 + casterDamage%/100 * (CASTER_BASE + CASTER_PER_TIER*(tier-1)))))
 const SKILL_WAVE_DMG_GROWTH := 0.15        # +15% base skill damage per wave
 const SKILL_CASTER_DMG_BASE := 1.0         # caster-Damage share at tier 1 (×1)
 const SKILL_CASTER_DMG_PER_TIER := 0.25    # +0.25× caster Damage per tier (tier 5 → ×2.0)
+const SKILL_MIN_DMG_MULT := 0.25           # a negative-Damage build still deals at least 25% skill damage
 const SKILL_WAVE_HEAL_GROWTH := 0.12       # heal grows a bit slower than damage
 
 # ---- Input: one free button per player to fire the skill (Brotato co-op uses only movement) ----
@@ -98,6 +100,9 @@ const TMPL_GREED := "greed"               # team "Midas window": ×mult on ALL m
 # Per-character skill registry — ALL 64, EACH with a UNIQUE combo (not just different numbers).
 #   buff/shield/dash: duration, dur_per_tier, stats{k:base}, stats_per_tier{k:inc} (+distance for dash)
 #   heal: heal, heal_per_tier   ·   aoe: radius, radius_per_tier, damage, damage_per_tier
+#   stats use the game's own stat keys (stat_percent_damage = Damage %, xp_gain = XP Gain). stat_harvesting
+#     in a skill lasts until the WAVE ENDS (harvesting only pays out then) and recasting tops it up, not stacks.
+#   heal_self:true on a heal skill heals only the caster (default: every ally).
 #   RIDERS (flavor, optional): stats(+duration,buff_party)=temp buff on cast; drain(+drain_party)=heal on cast.
 #   aoe_on_cast{damage,damage_per_tier,radius,radius_per_tier,at:"self"/"cursor"/"impact",count,spread,
 #     beam:true(laser line),ring_color:[r,g,b],burn,hit_vfx} = a damaging burst fired WHEN cast, so a buff/dash
@@ -130,8 +135,8 @@ const SKILLS := {
 		"template": TMPL_BUFF_PARTY,
 		"duration": 4.0,
 		"dur_per_tier": 0.50,
-		"stats": {"stat_harvesting": 20, "stat_xp_gain": 15},
-		"stats_per_tier": {"stat_harvesting": 8, "stat_xp_gain": 6},
+		"stats": {"stat_harvesting": 20, "xp_gain": 15},
+		"stats_per_tier": {"stat_harvesting": 8, "xp_gain": 6},
 	},
 	"romantic": {
 		"name": "Charm",
@@ -159,8 +164,8 @@ const SKILLS := {
 		"template": TMPL_BUFF_PARTY,
 		"duration": 5.0,
 		"dur_per_tier": 0.50,
-		"stats": {"stat_damage": 8, "stat_attack_speed": 8},
-		"stats_per_tier": {"stat_damage": 4, "stat_attack_speed": 4},
+		"stats": {"stat_percent_damage": 8, "stat_attack_speed": 8},
+		"stats_per_tier": {"stat_percent_damage": 4, "stat_attack_speed": 4},
 	},
 	"king": {
 		"name": "Royal Decree",
@@ -169,8 +174,8 @@ const SKILLS := {
 		"cooldown_class": "slow",
 		"duration": 5.0,
 		"dur_per_tier": 0.75,
-		"stats": {"stat_damage": 10, "stat_armor": 5, "stat_luck": 10},
-		"stats_per_tier": {"stat_damage": 5, "stat_armor": 2, "stat_luck": 5},
+		"stats": {"stat_percent_damage": 10, "stat_armor": 5, "stat_luck": 10},
+		"stats_per_tier": {"stat_percent_damage": 5, "stat_armor": 2, "stat_luck": 5},
 	},
 	"lucky": {
 		"name": "Lucky Charm",
@@ -202,8 +207,8 @@ const SKILLS := {
 		"dur_per_tier": 0.50,
 		"heal": 12,
 		"heal_per_tier": 5,
-		"stats": {"stat_damage": 5},
-		"stats_per_tier": {"stat_damage": 2},
+		"stats": {"stat_percent_damage": 5},
+		"stats_per_tier": {"stat_percent_damage": 2},
 		"buff_party": true,
 	},
 	"ranger": {
@@ -278,8 +283,8 @@ const SKILLS := {
 		"template": TMPL_BUFF_SELF,
 		"duration": 3.0,
 		"dur_per_tier": 0.50,
-		"stats": {"stat_attack_speed": 40, "stat_damage": 10},
-		"stats_per_tier": {"stat_attack_speed": 12, "stat_damage": 5},
+		"stats": {"stat_attack_speed": 40, "stat_percent_damage": 10},
+		"stats_per_tier": {"stat_attack_speed": 12, "stat_percent_damage": 5},
 	},
 	"one-armed": {
 		"name": "Haymaker",
@@ -360,8 +365,8 @@ const SKILLS := {
 		"template": TMPL_BUFF_PARTY,
 		"duration": 4.0,
 		"dur_per_tier": 0.50,
-		"stats": {"stat_attack_speed": 10, "stat_damage": 5},
-		"stats_per_tier": {"stat_attack_speed": 4, "stat_damage": 2},
+		"stats": {"stat_attack_speed": 10, "stat_percent_damage": 5},
+		"stats_per_tier": {"stat_attack_speed": 4, "stat_percent_damage": 2},
 		"aoe_on_cast": {
 			"at": "cursor",
 			"count": 3,
@@ -425,8 +430,8 @@ const SKILLS := {
 		"radius_per_tier": 30.0,
 		"damage": 26,
 		"damage_per_tier": 13,
-		"stats": {"stat_engineering": 12, "stat_damage": 8},
-		"stats_per_tier": {"stat_engineering": 5, "stat_damage": 3},
+		"stats": {"stat_engineering": 12, "stat_percent_damage": 8},
+		"stats_per_tier": {"stat_engineering": 5, "stat_percent_damage": 3},
 		"vfx": "explosion_burst",
 		"vfx_color": [1.0, 0.3, 0.1],
 	},
@@ -675,8 +680,11 @@ const SKILLS := {
 		"template": TMPL_HEAL,
 		"duration": 6.0,
 		"dur_per_tier": 0.50,
-		"heal": 20,
-		"heal_per_tier": 8,
+		# A tank's self-sustain, not a team heal: Glutton eats alone ("every bite mends and makes YOU
+		# bigger"). As a party heal it out-healed every Support (52 HP × wave growth to all allies).
+		"heal_self": true,
+		"heal": 25,
+		"heal_per_tier": 10,
 		"stats": {"stat_max_hp": 15},
 		"stats_per_tier": {"stat_max_hp": 6},
 	},
@@ -732,8 +740,8 @@ const SKILLS := {
 		"template": TMPL_BUFF_SELF,
 		"duration": 5.0,
 		"dur_per_tier": 0.75,
-		"stats": {"stat_damage": 15, "stat_armor": 10},
-		"stats_per_tier": {"stat_damage": 5, "stat_armor": 5},
+		"stats": {"stat_percent_damage": 15, "stat_armor": 10},
+		"stats_per_tier": {"stat_percent_damage": 5, "stat_armor": 5},
 		"material_drop": 15,
 		"material_drop_per_tier": 5,
 	},
@@ -743,8 +751,8 @@ const SKILLS := {
 		"template": TMPL_BUFF_SELF,
 		"duration": 5.0,
 		"dur_per_tier": 0.50,
-		"stats": {"stat_damage": 15, "stat_harvesting": 20},
-		"stats_per_tier": {"stat_damage": 5, "stat_harvesting": 8},
+		"stats": {"stat_percent_damage": 15, "stat_harvesting": 20},
+		"stats_per_tier": {"stat_percent_damage": 5, "stat_harvesting": 8},
 	},
 	"streamer": {
 		"name": "Go Live",
@@ -753,8 +761,8 @@ const SKILLS := {
 		"cooldown_class": "fast",
 		"duration": 5.0,
 		"dur_per_tier": 0.50,
-		"stats": {"stat_damage": 5, "stat_attack_speed": 5, "stat_armor": 3},
-		"stats_per_tier": {"stat_damage": 2, "stat_attack_speed": 2, "stat_armor": 2},
+		"stats": {"stat_percent_damage": 5, "stat_attack_speed": 5, "stat_armor": 3},
+		"stats_per_tier": {"stat_percent_damage": 2, "stat_attack_speed": 2, "stat_armor": 2},
 		"standing_still_bonus": 1.5,
 		"standing_still_window": 1.0,
 	},
@@ -763,7 +771,7 @@ const SKILLS := {
 		"role": ROLE_LATE,
 		"template": TMPL_SUMMON,
 		"cooldown_class": "slow",
-		"sprite": "res://mods-unpacked/tato-Synergies/assets/skills/curious.png",
+		"sprite": "res://mods-unpacked/Redsuperninja-Synergies/assets/skills/curious.png",
 		"shot": "none",
 		"interval": 999.0,
 		"range": 300.0,
@@ -784,8 +792,8 @@ const SKILLS := {
 		"template": TMPL_BUFF_SELF,
 		"duration": 4.0,
 		"dur_per_tier": 0.50,
-		"stats": {"stat_damage": 15, "stat_attack_speed": 15, "stat_armor": 10, "stat_speed": 10},
-		"stats_per_tier": {"stat_damage": 6, "stat_attack_speed": 6, "stat_armor": 5, "stat_speed": 5},
+		"stats": {"stat_percent_damage": 15, "stat_attack_speed": 15, "stat_armor": 10, "stat_speed": 10},
+		"stats_per_tier": {"stat_percent_damage": 6, "stat_attack_speed": 6, "stat_armor": 5, "stat_speed": 5},
 	},
 	"fisherman": {
 		"name": "Cast Net",
@@ -925,8 +933,8 @@ const SKILLS := {
 		"template": TMPL_BUFF_SELF,
 		"duration": 4.0,
 		"dur_per_tier": 0.50,
-		"stats": {"stat_damage": 30, "stat_dodge": 15},
-		"stats_per_tier": {"stat_damage": 10, "stat_dodge": 5},
+		"stats": {"stat_percent_damage": 30, "stat_dodge": 15},
+		"stats_per_tier": {"stat_percent_damage": 10, "stat_dodge": 5},
 		"vfx": "buff_ring",
 		"vfx_color": [1.0, 0.3, 0.3],
 	},
@@ -937,8 +945,8 @@ const SKILLS := {
 		"cooldown_class": "fast",
 		"duration": 5.0,
 		"dur_per_tier": 0.50,
-		"stats": {"stat_damage": 5, "stat_attack_speed": 5, "stat_armor": 3, "stat_speed": 3},
-		"stats_per_tier": {"stat_damage": 2, "stat_attack_speed": 2, "stat_armor": 1, "stat_speed": 1},
+		"stats": {"stat_percent_damage": 5, "stat_attack_speed": 5, "stat_armor": 3, "stat_speed": 3},
+		"stats_per_tier": {"stat_percent_damage": 2, "stat_attack_speed": 2, "stat_armor": 1, "stat_speed": 1},
 	},
 	"well-rounded": {
 		"name": "Fortify",
@@ -946,8 +954,8 @@ const SKILLS := {
 		"template": TMPL_SHIELD,
 		"duration": 5.0,
 		"dur_per_tier": 0.50,
-		"stats": {"stat_armor": 15, "stat_damage": 5},
-		"stats_per_tier": {"stat_armor": 8, "stat_damage": 3},
+		"stats": {"stat_armor": 15, "stat_percent_damage": 5},
+		"stats_per_tier": {"stat_armor": 8, "stat_percent_damage": 3},
 	},
 	"vagabond": {
 		"name": "Scavenge",
@@ -956,8 +964,8 @@ const SKILLS := {
 		"cooldown_class": "fast",
 		"duration": 4.0,
 		"dur_per_tier": 0.50,
-		"stats": {"stat_damage": 15, "stat_speed": 15},
-		"stats_per_tier": {"stat_damage": 5, "stat_speed": 4},
+		"stats": {"stat_percent_damage": 15, "stat_speed": 15},
+		"stats_per_tier": {"stat_percent_damage": 5, "stat_speed": 4},
 	},
 	"jack": {
 		"name": "Jackpot",
@@ -975,8 +983,8 @@ const SKILLS := {
 		"template": TMPL_BUFF_SELF,
 		"duration": 4.0,
 		"dur_per_tier": 0.50,
-		"stats": {"stat_damage": 20, "stat_elemental_damage": 15},
-		"stats_per_tier": {"stat_damage": 7, "stat_elemental_damage": 5},
+		"stats": {"stat_percent_damage": 20, "stat_elemental_damage": 15},
+		"stats_per_tier": {"stat_percent_damage": 7, "stat_elemental_damage": 5},
 	},
 }
 
@@ -1053,36 +1061,42 @@ const SKILL_FLAVOR := {
 # (TFT-style trait with a tradeoff). Tiered: tiers[] entry whose `at` <= member count applies (2 = small,
 # 3+ = larger). `pairs` = named-pair bonuses (both present → extra buff). A character can sit in multiple
 # factions (draft depth). Applied team-wide at each wave start, cleared at wave end (see controller).
-# Numbers are a first balance pass. Member slugs are from the 64-char set. (Source: coop affinities spec.)
+# Every one of the 64 characters is in at least one faction.
+# Balance rules:
+#  - Each faction's nerf hits a different stat where possible, so stacking factions spreads the cost
+#    instead of piling one stat deep into the negatives.
+#  - A nerf is CLAMPED per player: it only takes away what that player has and never pushes a stat below
+#    AFFINITY_NERF_FLOOR (0 by default), so a faction can never create a negative stat.
+#  - No faction nerfs Harvesting: negative Harvesting costs materials at the end of every wave.
 const AFFINITIES := {
 	"same_boat": {
 		"label": "Same Boat", "label_vi": "Cùng Thuyền",
 		"members": ["buccaneer", "captain", "sailor", "diver", "fisherman"],
 		"tiers": [
-			{"at": 2, "buff": {"stat_luck": 15, "stat_speed": 10}, "nerf": {"stat_armor": -6}},
-			{"at": 3, "buff": {"stat_luck": 30, "stat_speed": 20}, "nerf": {"stat_armor": -10}},
+			{"at": 2, "buff": {"stat_luck": 15, "stat_speed": 10}, "nerf": {"stat_armor": -4}},
+			{"at": 3, "buff": {"stat_luck": 30, "stat_speed": 20}, "nerf": {"stat_armor": -7}},
 		],
 	},
 	"arcane": {
 		"label": "Arcane", "label_vi": "Phép Thuật",
 		"members": ["mage", "apprentice", "lich", "druid", "technomage"],
 		"tiers": [
-			{"at": 2, "buff": {"stat_elemental_damage": 20}, "nerf": {"stat_max_hp": -8}},
-			{"at": 3, "buff": {"stat_elemental_damage": 40}, "nerf": {"stat_max_hp": -14}},
+			{"at": 2, "buff": {"stat_elemental_damage": 20}, "nerf": {"stat_max_hp": -6}},
+			{"at": 3, "buff": {"stat_elemental_damage": 40}, "nerf": {"stat_max_hp": -10}},
 		],
-		"pairs": [{"a": "mage", "b": "apprentice", "buff": {"stat_xp_gain": 15}}],
+		"pairs": [{"a": "mage", "b": "apprentice", "buff": {"xp_gain": 15}}],
 	},
 	"machines": {
 		"label": "Machines", "label_vi": "Máy Móc",
 		"members": ["engineer", "artificer", "cyborg", "golem", "technomage"],
 		"tiers": [
-			{"at": 2, "buff": {"stat_engineering": 12}, "nerf": {"stat_dodge": -5}},
-			{"at": 3, "buff": {"stat_engineering": 24}, "nerf": {"stat_dodge": -8}},
+			{"at": 2, "buff": {"stat_engineering": 12}, "nerf": {"stat_dodge": -4}},
+			{"at": 3, "buff": {"stat_engineering": 24}, "nerf": {"stat_dodge": -7}},
 		],
 	},
 	"damned": {
 		"label": "The Damned", "label_vi": "Kẻ Bị Nguyền",
-		"members": ["demon", "vampire", "lich", "ghost", "cryptid", "creature"],
+		"members": ["demon", "vampire", "lich", "ghost", "cryptid", "creature", "sick"],
 		"tiers": [
 			{"at": 2, "buff": {"stat_lifesteal": 8}, "nerf": {"stat_hp_regeneration": -3}},
 			{"at": 3, "buff": {"stat_lifesteal": 15}, "nerf": {"stat_hp_regeneration": -5}},
@@ -1092,60 +1106,83 @@ const AFFINITIES := {
 		"label": "Crown & Steel", "label_vi": "Vương & Thép",
 		"members": ["king", "knight", "gladiator", "soldier", "captain"],
 		"tiers": [
-			{"at": 2, "buff": {"stat_melee_damage": 15, "stat_armor": 6}, "nerf": {"stat_range": -10}},
-			{"at": 3, "buff": {"stat_melee_damage": 30, "stat_armor": 12}, "nerf": {"stat_range": -16}},
+			{"at": 2, "buff": {"stat_melee_damage": 15, "stat_armor": 4}, "nerf": {"stat_range": -8}},
+			{"at": 3, "buff": {"stat_melee_damage": 30, "stat_armor": 8}, "nerf": {"stat_range": -14}},
 		],
-		"pairs": [{"a": "king", "b": "knight", "buff": {"stat_armor": 8}}],
+		"pairs": [{"a": "king", "b": "knight", "buff": {"stat_armor": 6}}],
 	},
 	"wild": {
 		"label": "The Wild", "label_vi": "Hoang Dã",
-		"members": ["wildling", "beast-master", "hunter", "ogre", "bull", "cryptid"],
+		"members": ["wildling", "beast-master", "hunter", "ogre", "bull", "cryptid", "ranger"],
 		"tiers": [
-			{"at": 2, "buff": {"stat_crit_chance": 8, "stat_attack_speed": 12}, "nerf": {"stat_engineering": -10}},
-			{"at": 3, "buff": {"stat_crit_chance": 14, "stat_attack_speed": 22}, "nerf": {"stat_engineering": -16}},
+			{"at": 2, "buff": {"stat_crit_chance": 8, "stat_attack_speed": 12}, "nerf": {"stat_engineering": -8}},
+			{"at": 3, "buff": {"stat_crit_chance": 14, "stat_attack_speed": 22}, "nerf": {"stat_engineering": -14}},
 		],
+		"pairs": [{"a": "hunter", "b": "ranger", "buff": {"stat_range": 25}}],
 	},
 	"hustlers": {
 		"label": "Hustlers", "label_vi": "Con Buôn",
 		"members": ["arms-dealer", "entrepreneur", "streamer", "saver", "gangster", "jack"],
 		"tiers": [
-			{"at": 2, "buff": {"stat_harvesting": 18}, "nerf": {"stat_damage": -6}},
-			{"at": 3, "buff": {"stat_harvesting": 35}, "nerf": {"stat_damage": -10}},
+			{"at": 2, "buff": {"stat_harvesting": 18}, "nerf": {"stat_percent_damage": -5}},
+			{"at": 3, "buff": {"stat_harvesting": 35}, "nerf": {"stat_percent_damage": -8}},
 		],
 	},
 	"caretakers": {
 		"label": "The Caretakers", "label_vi": "Người Chăm Sóc",
 		"members": ["doctor", "romantic", "pacifist", "lucky", "old", "chef"],
 		"tiers": [
-			{"at": 2, "buff": {"stat_hp_regeneration": 4}, "nerf": {"stat_damage": -6}},
-			{"at": 3, "buff": {"stat_hp_regeneration": 8}, "nerf": {"stat_damage": -10}},
+			{"at": 2, "buff": {"stat_hp_regeneration": 4}, "nerf": {"stat_attack_speed": -5}},
+			{"at": 3, "buff": {"stat_hp_regeneration": 8}, "nerf": {"stat_attack_speed": -8}},
 		],
 	},
 	"reckless": {
 		"label": "Reckless", "label_vi": "Liều Lĩnh",
-		"members": ["crazy", "masochist", "renegade", "mutant", "wounded"],
+		"members": ["crazy", "masochist", "renegade", "mutant", "wounded", "loud"],
 		"tiers": [
-			{"at": 2, "buff": {"stat_damage": 12, "stat_attack_speed": 12}, "nerf": {"stat_max_hp": -10}},
-			{"at": 3, "buff": {"stat_damage": 24, "stat_attack_speed": 22}, "nerf": {"stat_max_hp": -16}},
+			{"at": 2, "buff": {"stat_percent_damage": 12, "stat_attack_speed": 12}, "nerf": {"stat_max_hp": -8}},
+			{"at": 3, "buff": {"stat_percent_damage": 24, "stat_attack_speed": 22}, "nerf": {"stat_max_hp": -12}},
 		],
 	},
 	"late_bloomers": {
 		"label": "Late Bloomers", "label_vi": "Nở Muộn",
-		"members": ["baby", "glutton", "hiker", "builder", "chunky", "mutant"],
+		"members": ["baby", "glutton", "hiker", "builder", "chunky", "mutant", "farmer"],
 		"tiers": [
-			{"at": 2, "buff": {"stat_max_hp": 12, "stat_harvesting": 12}, "nerf": {"stat_damage": -6}},
-			{"at": 3, "buff": {"stat_max_hp": 24, "stat_harvesting": 24}, "nerf": {"stat_damage": -10}},
+			{"at": 2, "buff": {"stat_max_hp": 12, "stat_harvesting": 12}, "nerf": {"stat_speed": -5}},
+			{"at": 3, "buff": {"stat_max_hp": 24, "stat_harvesting": 24}, "nerf": {"stat_speed": -8}},
 		],
 	},
 	"drifters": {
 		"label": "Drifters", "label_vi": "Lang Bạt",
 		"members": ["explorer", "speedy", "vagabond", "curious", "hiker"],
 		"tiers": [
-			{"at": 2, "buff": {"stat_speed": 15, "stat_dodge": 5}, "nerf": {"stat_armor": -6}},
-			{"at": 3, "buff": {"stat_speed": 28, "stat_dodge": 9}, "nerf": {"stat_armor": -10}},
+			{"at": 2, "buff": {"stat_speed": 15, "stat_dodge": 5}, "nerf": {"stat_armor": -4}},
+			{"at": 3, "buff": {"stat_speed": 28, "stat_dodge": 9}, "nerf": {"stat_armor": -7}},
+		],
+	},
+	# Melee bruisers who trade blows instead of dodging them.
+	"iron_fists": {
+		"label": "Iron Fists", "label_vi": "Nắm Đấm Thép",
+		"members": ["brawler", "one-armed", "dwarf", "ogre"],
+		"tiers": [
+			{"at": 2, "buff": {"stat_melee_damage": 12, "stat_max_hp": 6}, "nerf": {"stat_dodge": -3}},
+			{"at": 3, "buff": {"stat_melee_damage": 24, "stat_max_hp": 12}, "nerf": {"stat_dodge": -6}},
+		],
+	},
+	# Generalists: a little of everything, no big spikes.
+	"all_rounders": {
+		"label": "All-Rounders", "label_vi": "Toàn Năng",
+		"members": ["generalist", "well-rounded", "multitasker", "vagabond"],
+		"tiers": [
+			{"at": 2, "buff": {"stat_percent_damage": 5, "stat_attack_speed": 5, "stat_armor": 2, "stat_speed": 5}, "nerf": {"stat_crit_chance": -4}},
+			{"at": 3, "buff": {"stat_percent_damage": 10, "stat_attack_speed": 10, "stat_armor": 4, "stat_speed": 10}, "nerf": {"stat_crit_chance": -8}},
 		],
 	},
 }
+
+# Lowest value a faction nerf may push a stat to (per player). Unlisted stats floor at 0.
+# Max HP floors at the game's starting 10 so a nerf never eats a low-HP character's whole bar.
+const AFFINITY_NERF_FLOOR := {"stat_max_hp": 10}
 
 # One distinct color per faction — drives the character-icon border + the legend swatches on the
 # character-select screen, so players can spot same-faction picks at a glance.
@@ -1161,8 +1198,10 @@ const AFFINITY_COLORS := {
 	"reckless": [0.97, 0.42, 0.18],      # orange-red
 	"late_bloomers": [0.66, 0.48, 0.30], # tan/brown
 	"drifters": [0.40, 0.82, 0.93],      # sky cyan
+	"iron_fists": [0.62, 0.66, 0.72],    # steel grey
+	"all_rounders": [0.74, 0.88, 0.26],  # lime
 }
 
 # Faction display order for the legend (left column then right column).
-const AFFINITY_ORDER := ["same_boat", "arcane", "machines", "damned", "crown_steel", "wild",
-	"hustlers", "caretakers", "reckless", "late_bloomers", "drifters"]
+const AFFINITY_ORDER := ["same_boat", "arcane", "machines", "damned", "crown_steel", "wild", "iron_fists",
+	"hustlers", "caretakers", "reckless", "late_bloomers", "drifters", "all_rounders"]

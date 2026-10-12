@@ -6,8 +6,8 @@
 # injects once per open, and re-injects when the codex is reopened (the popup is freed on close).
 extends Node
 
-const Config = preload("res://mods-unpacked/tato-Synergies/config.gd")
-const CharselPanel = preload("res://mods-unpacked/tato-Synergies/lib/charsel_panel.gd")
+const Config = preload("res://mods-unpacked/Redsuperninja-Synergies/config.gd")
+const CharselPanel = preload("res://mods-unpacked/Redsuperninja-Synergies/lib/charsel_panel.gd")
 
 const TAB_THEME := "res://resources/themes/tab_buttons_physic.tres"
 const F_NAME := "res://resources/fonts/actual/base/font_26.tres"
@@ -26,6 +26,7 @@ const PCT_STATS := {
 	"stat_damage": true, "stat_melee_damage": true, "stat_ranged_damage": true,
 	"stat_elemental_damage": true, "stat_attack_speed": true, "stat_speed": true,
 	"stat_dodge": true, "stat_crit_chance": true, "stat_lifesteal": true, "stat_xp_gain": true,
+	"stat_percent_damage": true, "xp_gain": true,
 }
 const STAT_NAME := {
 	"stat_attack_speed": "Attack Speed", "stat_luck": "Luck", "stat_crit_chance": "Crit Chance",
@@ -33,7 +34,7 @@ const STAT_NAME := {
 	"stat_dodge": "Dodge", "stat_ranged_damage": "Ranged Damage", "stat_range": "Range",
 	"stat_lifesteal": "Life Steal", "stat_hp_regeneration": "HP Regeneration", "stat_harvesting": "Harvesting",
 	"stat_engineering": "Engineering", "stat_melee_damage": "Melee Damage", "stat_elemental_damage": "Elemental Damage",
-	"stat_xp_gain": "XP Gain", "stat_percent_damage": "Damage", "stat_piercing": "Piercing",
+	"stat_xp_gain": "XP Gain", "xp_gain": "XP Gain", "stat_percent_damage": "Damage", "stat_piercing": "Piercing",
 	"stat_bounce": "Bounces", "stat_knockback": "Knockback", "stat_explosion_damage": "Explosion Damage",
 }
 const ROLE_NAME := {

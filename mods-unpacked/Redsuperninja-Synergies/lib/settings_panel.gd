@@ -10,7 +10,7 @@
 # Re-injects whenever the menu is rebuilt (close/reopen, or leaving and returning to the title screen).
 extends Node
 
-const Config = preload("res://mods-unpacked/tato-Synergies/config.gd")
+const Config = preload("res://mods-unpacked/Redsuperninja-Synergies/config.gd")
 
 const MARK_SOLO := "SynergiesSkillsSoloButton"
 const MARK_RUNOPT := "SynergiesRunOptionButton"   # the toggle injected into the char-select Run Options panel
